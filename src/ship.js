@@ -1,11 +1,12 @@
 const shipFactory = (length) => {
 
   let body = {};
+	let direction = "horizontal";
 
-  for (let i = 0; i < length; i++) {
+  for (let i = 1; i <= length; i++) {
     body[i] = true;
   };
-  
+
   const hit = (bodyCell) => {
     body[bodyCell] = false;
   };
@@ -23,5 +24,4 @@ const shipFactory = (length) => {
   return { body, hit, isSunk };
 }
 
-export {shipFactory};
-
+export { shipFactory };
