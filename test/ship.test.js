@@ -1,4 +1,4 @@
-import shipFactory from '../src/ship';
+import {shipFactory} from '../src/ship';
 
 const mockShip = shipFactory(4);
 
@@ -9,11 +9,11 @@ describe('Ship Object', () => {
 
   it('Ship body should change state when hit', () => {
     
-    expect(mockShip.body[2]).toEqual(false);
+    expect(mockShip.body[2]).toEqual(true);
     
     mockShip.hit(2);
     
-    expect(mockShip.body[2]).toEqual(true);
+    expect(mockShip.body[2]).toEqual(false);
   });
 
   it('isSunk returns true only if all the body is hit', () => {
