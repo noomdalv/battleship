@@ -4,12 +4,12 @@ import { shipFactory } from './ship';
 const gameBoard = () => {
 
 	// board creation
-	const gameBoardBody = {};
+	const body = {};
 
 	for (let i = 1; i <= 10; i++) {
-		gameBoardBody[i] = {};
+		body[i] = {};
 		for (let j = 1; j <= 10; j++) {
-			gameBoardBody[i][j] = 'empty';
+			body[i][j] = 'empty';
 		}
 	}
 
@@ -19,7 +19,7 @@ const gameBoard = () => {
       return undefined;
     };
 
-		return gameBoardBody[row][col];
+		return body[row][col];
 	}
 
 	//ship storage
@@ -43,11 +43,11 @@ const gameBoard = () => {
 	const spaceAvailable = (ship, x, y) => {
 		const shipSize = Object.keys(ship.body).length;
 
-    if (((x - 1 + shipSize) > 10 && ship.direction === "horizontal") || 
+    if (((x - 1 + shipSize) > 10 && ship.direction === "horizontal") ||
         ((y - 1 + shipSize) > 10 && ship.direction === "vertical")) {
           return false;
     };
-    
+
     if (checkPosition(x, y) === 'empty' && ship.direction === "horizontal") {
       for (let i = y-1; i <= (y + shipSize); i++) {
 				if (checkPosition(x, i) !== 'empty' && checkPosition(x, i) !== undefined) {
@@ -63,7 +63,7 @@ const gameBoard = () => {
 			}
 
       return true;
-      
+
 		} else if (checkPosition(x, y) === 'empty' && ship.direction === "vertical") {
 
       for (let i = x-1; i <= (x + shipSize); i++) {
@@ -75,22 +75,32 @@ const gameBoard = () => {
             return false;
           }
         }
-      }      
+      }
 				return true;
 		}
 	}
 
 
 	//ship placement
-	const placeShip = (ship, position) => {
-
+	const placeShip = (ship, x, y) => {
+		const shipSize = Object.keys(ship.body).length;
     // evaluate the length of ship and direction
-
-    shipSize = Object.keys(ship).length;
-
-
-
-
+		bodyCounter = 1;
+		if (spaceAvailable(ship, x, y)) {
+			if (ship.direction === "horizontal") {
+				for (let i = y; i < (y + shipSize); i++) {
+					body[x][i] = ship.body[bodyCounter];
+					bodyCounter++;
+				}
+			} else {
+				for (let i = x; i < (x + shipSize); i++) {
+					body[i][y] = ship.body[bodyCounter];
+					bodyCounter++;
+				}
+			}
+		} else {
+			alert("error, no space available")
+		}
 
 
     // nullify cells that are invalid
@@ -106,7 +116,7 @@ const gameBoard = () => {
 	//received attack
 
 
-	return { gameBoardBody, checkPosition, shipStorage, placeShip, selectShip, shipFactory,
+	return { body, checkPosition, shipStorage, placeShip, selectShip, shipFactory,
 		get currentShip() { return currentShip }, spaceAvailable }
 }
 
