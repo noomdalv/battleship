@@ -42,8 +42,8 @@ const gameBoard = () => {
 	const spaceAvailable = (ship, x, y) => {
 		const shipSize = Object.keys(ship.body).length;
 
-    if (((x - 1 + shipSize) > 10 && ship.direction === "horizontal") ||
-        ((y - 1 + shipSize) > 10 && ship.direction === "vertical")) {
+    if (((y - 1 + shipSize) > 10 && ship.direction === "horizontal") ||
+        ((x - 1 + shipSize) > 10 && ship.direction === "vertical")) {
           return false;
     };
 
@@ -58,7 +58,6 @@ const gameBoard = () => {
           }
         }
 			}
-
       return true;
 
 		} else if (checkPosition(x, y) === 'empty' && ship.direction === "vertical") {
@@ -73,7 +72,7 @@ const gameBoard = () => {
           }
         }
       }
-				return true;
+			return true;
 		}
 	}
 
@@ -85,18 +84,20 @@ const gameBoard = () => {
 		let bodyCounter = 1;
 		if (spaceAvailable(ship, x, y)) {
 			if (ship.direction === "horizontal") {
-        
+
         if (checkPosition(x,y-1) !== undefined) {body[x][y-1] = 'filled'};
         if (checkPosition(x,y+shipSize) !== undefined) {body[x][y+shipSize] = 'filled'};
 
 				for (let i = y; i < (y + shipSize); i++) {
           body[x][i] = ship.body[bodyCounter];
+					console.log("i = " + i);
+					console.log(body[x][i]);
           if (checkPosition(x-1,i) !== undefined) {body[x-1][i] = 'filled'};
           if (checkPosition(x+1,i) !== undefined) {body[x+1][i] = 'filled'};
 					bodyCounter++;
 				}
 			} else {
-
+				console.log("xxxx");
         if (checkPosition(x-1,y) !== undefined) {body[x-1][y] = 'filled'};
         if (checkPosition(x+shipSize,y) !== undefined) {body[x+shipSize][y] = 'filled'};
 
@@ -122,4 +123,3 @@ const gameBoard = () => {
 
 let testBoard = gameBoard();
 export { gameBoard };
-

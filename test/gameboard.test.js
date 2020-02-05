@@ -11,13 +11,12 @@ describe('Place ships', () => {
   })
 
   test('Check if space is available to place the ship', () => {
-    const mockShip2 = shipFactory(2);
-    expect(mockGameBoard.spaceAvailable(mockShip2, 1, 1)).toEqual(true);
+    expect(mockGameBoard.spaceAvailable(mockShip, 10, 1)).toEqual(true);
   })
 
   test('Check if ship is placed correctly', () => {
     const mockShip3 = shipFactory(3);
-    mockGameBoard.placeShip(mockShip,10,8);
+    mockGameBoard.placeShip(mockShip3, 10, 8);		
     expect(mockGameBoard.body[10][8]).toEqual(mockShip3.body[1]);
     expect(mockGameBoard.body[10][9]).toEqual(mockShip3.body[2]);
     expect(mockGameBoard.body[10][10]).toEqual(mockShip3.body[3]);
