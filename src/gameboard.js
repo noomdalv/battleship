@@ -18,7 +18,6 @@ const gameBoard = () => {
     if (row === 0 || row > 10 || col === 0 || col > 10) {
       return undefined;
     };
-
 		return body[row][col];
 	}
 
@@ -51,12 +50,10 @@ const gameBoard = () => {
     if (checkPosition(x, y) === 'empty' && ship.direction === "horizontal") {
       for (let i = y-1; i <= (y + shipSize); i++) {
 				if (checkPosition(x, i) !== 'empty' && checkPosition(x, i) !== undefined) {
-          console.log(checkPosition(x,i),i);
 					return false;
         }
         for (let j = x -1; j <= (x + 1); j+= 2) {
           if (checkPosition(j,i) !== 'empty' && checkPosition(j, i) !== undefined) {
-            console.log(checkPosition(j,i),j);
             return false;
           }
         }
@@ -85,31 +82,34 @@ const gameBoard = () => {
 	const placeShip = (ship, x, y) => {
 		const shipSize = Object.keys(ship.body).length;
     // evaluate the length of ship and direction
-		bodyCounter = 1;
+		let bodyCounter = 1;
 		if (spaceAvailable(ship, x, y)) {
 			if (ship.direction === "horizontal") {
+        
+        if (checkPosition(x,y-1) !== undefined) {body[x][y-1] = 'filled'};
+        if (checkPosition(x,y+shipSize) !== undefined) {body[x][y+shipSize] = 'filled'};
+
 				for (let i = y; i < (y + shipSize); i++) {
-					body[x][i] = ship.body[bodyCounter];
+          body[x][i] = ship.body[bodyCounter];
+          if (checkPosition(x-1,i) !== undefined) {body[x-1][i] = 'filled'};
+          if (checkPosition(x+1,i) !== undefined) {body[x+1][i] = 'filled'};
 					bodyCounter++;
 				}
 			} else {
+
+        if (checkPosition(x-1,y) !== undefined) {body[x-1][y] = 'filled'};
+        if (checkPosition(x+shipSize,y) !== undefined) {body[x+shipSize][y] = 'filled'};
+
 				for (let i = x; i < (x + shipSize); i++) {
-					body[i][y] = ship.body[bodyCounter];
+          body[i][y] = ship.body[bodyCounter];
+          if (checkPosition(i,y+1) !== undefined) {body[i][y+1] = 'filled'};
+          if (checkPosition(i,y-1) !== undefined) {body[i][y-1] = 'filled'};
 					bodyCounter++;
 				}
-			}
+      }
 		} else {
 			alert("error, no space available")
 		}
-
-
-    // nullify cells that are invalid
-      // check for cells that don't exist
-
-      //check for nearby ships
-
-
-    // fill the cells with ship body starting from head of direction
 
 	}
 
@@ -121,5 +121,5 @@ const gameBoard = () => {
 }
 
 let testBoard = gameBoard();
-// console.log(testBoard.checkPosition(10,13));
 export { gameBoard };
+
