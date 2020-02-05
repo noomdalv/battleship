@@ -26,10 +26,10 @@ const gameBoard = () => {
 	}
 
 	//ship selection
-	let currentShip;
+	let currentShip = {};
 
 	const selectShip = (ship) => {
-		currentShip = { ship };
+		currentShip = ship
 	}
 
 	//change ship direction
@@ -42,7 +42,9 @@ const gameBoard = () => {
 	//received attack
 
 
-	return { gameBoardBody, checkCell, shipStorage, placeShip, currentShip, selectShip, shipFactory }
+	return { gameBoardBody, checkCell, shipStorage, placeShip, selectShip, shipFactory,
+		get currentShip() { return currentShip }
+	 }
 }
 
 let testBoard = gameBoard();
