@@ -15,6 +15,10 @@ const gameBoard = () => {
 
 	//position check
 	const checkPosition = (row, col) => {
+    if (row === 0 || row > 10 || col === 0 || col > 10) {
+      return undefined;
+    };
+
 		return gameBoardBody[row][col];
 	}
 
@@ -37,20 +41,22 @@ const gameBoard = () => {
 
 
 	const spaceAvailable = (ship, x, y) => {
-		const shipSize = Object.keys(ship).length;
+		const shipSize = Object.keys(ship.body).length;
 
-		if ((x - 1 + shipSize) > 10 && ship.direction === "horizontal" ||
-				((y - 1 + shipSize) > 10 && ship.direction === "vertical")) {
-			return false;
+    if (((x - 1 + shipSize) > 10 && ship.direction === "horizontal") || 
+        ((y - 1 + shipSize) > 10 && ship.direction === "vertical")) {
+          return false;
     };
     
     if (checkPosition(x, y) === 'empty' && ship.direction === "horizontal") {
       for (let i = y-1; i <= (y + shipSize); i++) {
-				if (checkPosition(x, i) !== 'empty' || checkPosition(x, i) !== undefined) {
+				if (checkPosition(x, i) !== 'empty' && checkPosition(x, i) !== undefined) {
+          console.log(checkPosition(x,i),i);
 					return false;
         }
         for (let j = x -1; j <= (x + 1); j+= 2) {
-          if (checkPosition(j,i) !== 'empty' || checkPosition(j, i) !== undefined) {
+          if (checkPosition(j,i) !== 'empty' && checkPosition(j, i) !== undefined) {
+            console.log(checkPosition(j,i),j);
             return false;
           }
         }
@@ -61,11 +67,11 @@ const gameBoard = () => {
 		} else if (checkPosition(x, y) === 'empty' && ship.direction === "vertical") {
 
       for (let i = x-1; i <= (x + shipSize); i++) {
-				if (checkPosition(i, y) !== 'empty' || checkPosition(i, y) !== undefined) {
+				if (checkPosition(i, y) !== 'empty' && checkPosition(i, y) !== undefined) {
 					return false;
         }
         for (let j = y -1; j <= (y + 1); j+= 2) {
-          if (checkPosition(i,j) !== 'empty' || checkPosition(i, j) !== undefined) {
+          if (checkPosition(i,j) !== 'empty' && checkPosition(i, j) !== undefined) {
             return false;
           }
         }
@@ -105,5 +111,5 @@ const gameBoard = () => {
 }
 
 let testBoard = gameBoard();
-console.log(testBoard.checkPosition(1,0));
+// console.log(testBoard.checkPosition(10,13));
 export { gameBoard };
