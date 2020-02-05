@@ -8,7 +8,7 @@ const gameBoard = () => {
 	for (let i = 1; i <= 10; i++) {
 		gameBoardBody[i] = {};
 		for (let j = 1; j <= 10; j++) {
-			gameBoardBody[i][j] = null;
+			gameBoardBody[i][j] = 'empty';
 		}
 	}
 
@@ -32,10 +32,26 @@ const gameBoard = () => {
 		currentShip = ship
 	}
 
-	//change ship direction
-
+  
 	//ship placement
 	const placeShip = (ship, position) => {
+
+    // evaluate the length of ship and direction
+
+    shipSize = Object.keys(ship).length;
+
+    if checkCell ()
+    
+
+
+
+    // nullify cells that are invalid
+      // check for cells that don't exist
+
+      //check for nearby ships
+
+
+    // fill the cells with ship body starting from head of direction
 
 	}
 
@@ -43,10 +59,10 @@ const gameBoard = () => {
 
 
 	return { gameBoardBody, checkCell, shipStorage, placeShip, selectShip, shipFactory,
-		get currentShip() { return currentShip }
-	 }
+		get currentShip() { return currentShip }}
 }
 
 let testBoard = gameBoard();
 
 export { gameBoard };
+
