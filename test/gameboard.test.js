@@ -9,4 +9,8 @@ describe('Place ships', () => {
 		mockGameBoard.selectShip(mockShip);
     expect(mockGameBoard.currentShip).toMatchObject(mockShip);
   })
+
+  test('Check if space is available to place the ship', () => {
+    expect(mockGameBoard.spaceAvailable(mockShip, 1, 1)).toEqual(true);
+  })
 });

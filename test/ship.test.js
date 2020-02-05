@@ -32,5 +32,5 @@ describe('Ship Object', () => {
   test('Changes ship direction', () => {
     mockShip.switchDirection();
     expect(mockShip.direction).toEqual('vertical');
-  })
+  }) 
 })

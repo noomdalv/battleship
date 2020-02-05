@@ -1,40 +1,5 @@
-// import { shipFactory } from './ship';
+import { shipFactory } from './ship';
 
-const shipFactory = (length) => {
-
-  let body = {};
-	let direction = "horizontal";
-
-  for (let i = 1; i <= length; i++) {
-    body[i] = true;
-  };
-
-  const hit = (bodyCell) => {
-    body[bodyCell] = false;
-  };
-
-  const isSunk = () => {
-    for (let i = 0; i < Object.keys(body).length; i++) {
-      if ( body[i] === true ) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  const switchDirection = () => {
-    if (direction === 'horizontal') {
-      direction = 'vertical';
-    } else {
-      direction = 'horizontal';
-    };
-  };
-
-
-
-  return { body, hit, isSunk, get direction() { return direction},
-           switchDirection };
-}
 
 const gameBoard = () => {
 
@@ -68,32 +33,43 @@ const gameBoard = () => {
 		currentShip = ship
 	}
 
+
+
+
 	const spaceAvailable = (ship, x, y) => {
-		shipSize = Object.keys(ship).length;
+		const shipSize = Object.keys(ship).length;
 
-		if (((x + shipsize) > 10 && ship.direction === "horizontal") ||
-				((y + shipsize) > 10 && ship.direction === "vertical") {
+		if ((x - 1 + shipSize) > 10 && ship.direction === "horizontal" ||
+				((y - 1 + shipSize) > 10 && ship.direction === "vertical")) {
 			return false;
-		}
-
-
-		if (checkPosition(x, y) === 'empty' && ship.direction === "horizontal") {
-
-			for (let i = 0; i < shipSize; i++) {
-				if (checkposition(x, i) !== 'empty') {
+    };
+    
+    if (checkPosition(x, y) === 'empty' && ship.direction === "horizontal") {
+      for (let i = y-1; i <= (y + shipSize); i++) {
+				if (checkPosition(x, i) !== 'empty' || checkPosition(x, i) !== undefined) {
 					return false;
-				}
+        }
+        for (let j = x -1; j <= (x + 1); j+= 2) {
+          if (checkPosition(j,i) !== 'empty' || checkPosition(j, i) !== undefined) {
+            return false;
+          }
+        }
 			}
 
-			return true;
+      return true;
+      
 		} else if (checkPosition(x, y) === 'empty' && ship.direction === "vertical") {
 
-				for (let i = 0; i < shipSize; i++) {
-					if (checkposition(i, y) !== 'empty') {
-						return false;
-					}
-				}
-
+      for (let i = x-1; i <= (x + shipSize); i++) {
+				if (checkPosition(i, y) !== 'empty' || checkPosition(i, y) !== undefined) {
+					return false;
+        }
+        for (let j = y -1; j <= (y + 1); j+= 2) {
+          if (checkPosition(i,j) !== 'empty' || checkPosition(i, j) !== undefined) {
+            return false;
+          }
+        }
+      }      
 				return true;
 		}
 	}
@@ -125,9 +101,9 @@ const gameBoard = () => {
 
 
 	return { gameBoardBody, checkPosition, shipStorage, placeShip, selectShip, shipFactory,
-		get currentShip() { return currentShip }}
+		get currentShip() { return currentShip }, spaceAvailable }
 }
 
 let testBoard = gameBoard();
-console.log(testBoard.gameBoardBody);
-// export { gameBoard };
+console.log(testBoard.checkPosition(1,0));
+export { gameBoard };
