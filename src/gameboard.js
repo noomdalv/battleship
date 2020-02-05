@@ -1,4 +1,40 @@
-import { shipFactory } from './ship';
+// import { shipFactory } from './ship';
+
+const shipFactory = (length) => {
+
+  let body = {};
+	let direction = "horizontal";
+
+  for (let i = 1; i <= length; i++) {
+    body[i] = true;
+  };
+
+  const hit = (bodyCell) => {
+    body[bodyCell] = false;
+  };
+
+  const isSunk = () => {
+    for (let i = 0; i < Object.keys(body).length; i++) {
+      if ( body[i] === true ) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const switchDirection = () => {
+    if (direction === 'horizontal') {
+      direction = 'vertical';
+    } else {
+      direction = 'horizontal';
+    };
+  };
+
+
+
+  return { body, hit, isSunk, get direction() { return direction},
+           switchDirection };
+}
 
 const gameBoard = () => {
 
@@ -13,7 +49,7 @@ const gameBoard = () => {
 	}
 
 	//position check
-	const checkCell = (row, col) => {
+	const checkPosition = (row, col) => {
 		return gameBoardBody[row][col];
 	}
 
@@ -32,7 +68,37 @@ const gameBoard = () => {
 		currentShip = ship
 	}
 
-  
+	const spaceAvailable = (ship, x, y) => {
+		shipSize = Object.keys(ship).length;
+
+		if (((x + shipsize) > 10 && ship.direction === "horizontal") ||
+				((y + shipsize) > 10 && ship.direction === "vertical") {
+			return false;
+		}
+
+
+		if (checkPosition(x, y) === 'empty' && ship.direction === "horizontal") {
+
+			for (let i = 0; i < shipSize; i++) {
+				if (checkposition(x, i) !== 'empty') {
+					return false;
+				}
+			}
+
+			return true;
+		} else if (checkPosition(x, y) === 'empty' && ship.direction === "vertical") {
+
+				for (let i = 0; i < shipSize; i++) {
+					if (checkposition(i, y) !== 'empty') {
+						return false;
+					}
+				}
+
+				return true;
+		}
+	}
+
+
 	//ship placement
 	const placeShip = (ship, position) => {
 
@@ -40,8 +106,8 @@ const gameBoard = () => {
 
     shipSize = Object.keys(ship).length;
 
-    if checkCell ()
-    
+
+
 
 
 
@@ -58,11 +124,10 @@ const gameBoard = () => {
 	//received attack
 
 
-	return { gameBoardBody, checkCell, shipStorage, placeShip, selectShip, shipFactory,
+	return { gameBoardBody, checkPosition, shipStorage, placeShip, selectShip, shipFactory,
 		get currentShip() { return currentShip }}
 }
 
 let testBoard = gameBoard();
-
-export { gameBoard };
-
+console.log(testBoard.gameBoardBody);
+// export { gameBoard };
