@@ -2,7 +2,7 @@ import { gameBoard } from '../src/gameboard';
 import { shipFactory } from '../src/ship';
 
 const mockGameBoard = gameBoard();
-const mockShip = shipFactory(2);
+const mockShip = shipFactory(1);
 
 describe('Place ships', () => {
   test('Checks for current ship selected inside ship storage', () => {
@@ -15,13 +15,21 @@ describe('Place ships', () => {
   })
 
   test('Check if ship is placed correctly', () => {
-    const mockShip3 = shipFactory(1);
-    mockGameBoard.placeShip(mockShip3, 1, 1);		
-    expect(mockGameBoard.body[1][1]).toEqual(mockShip3.body[1]);
+    mockGameBoard.placeShip(mockShip, 1, 1);
+    expect(mockGameBoard.body[1][1]).toEqual(mockShip.body[1]);
   })
 
-  test('mockTest', () => {
-    mockGameBoard.receiveAttack(1,1)
+  test('Checks if a Ship Body part is attacked', () => {
+		mockGameBoard.placeShip(mockShip, 1, 1);
+    mockGameBoard.receiveAttack(1,1);
+		expect(mockShip.body[1].status).toEqual(false);
     expect(mockGameBoard.body[1][1].status).toEqual(false);
   })
+
+	test('Checks if all the ships are sunk(status: false)', () => {
+		for (let i = 1; i <= mockGameBoard.shipStorage.length; i++) {
+			mockGameBoard.shipStorage[i].status === false
+		}
+		expect(mockGameBoard.isSunkAll()).toEqual(true);
+	})
 });

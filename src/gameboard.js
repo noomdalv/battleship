@@ -120,7 +120,7 @@ const gameBoard = () => {
 				let x = Math.floor(Math.random() * Math.floor(10)) + 1;
 				let y = Math.floor(Math.random() * Math.floor(10)) + 1;
 				placed = placeShip(shipStorage[i], x, y);
-			}			
+			}
 		};
 		return true
 	};
@@ -142,13 +142,18 @@ const gameBoard = () => {
 		}
 	};
 
-
+	const isSunkAll = () => {
+		for (let i = 1; i <= shipStorage.length; i++) {
+			if (shipStorage[i].status === true) {
+				return false
+			}
+		}
+		return true
+	}
 
 	return { body, checkPosition, shipStorage, placeShip, selectShip, shipFactory,
-		get currentShip() { return currentShip }, spaceAvailable, receiveAttack, randomPlacement }
+		get currentShip() { return currentShip }, spaceAvailable, receiveAttack, randomPlacement, isSunkAll }
 }
 
 let testBoard = gameBoard();
 export { gameBoard };
-
-
