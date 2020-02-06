@@ -9,7 +9,7 @@ const gameBoard = () => {
 	for (let i = 1; i <= 10; i++) {
 		body[i] = {};
 		for (let j = 1; j <= 10; j++) {
-			body[i][j] = {status: 'empty', shipStorageIndex: null, shipBodyIndex: null}
+			body[i][j] = 'empty';
 		}
 	}
 
@@ -89,7 +89,7 @@ const gameBoard = () => {
         		if (checkPosition(x,y+shipSize) !== undefined) {body[x][y+shipSize] = 'filled'}
 
 				for (let i = y; i < (y + shipSize); i++) {
-					body[x][i] = {status = ship.body[bodyCounter], shipStorageIndex: };
+					body[x][i] = ship.body[bodyCounter];
 					if (checkPosition(x-1,i) !== undefined) {body[x-1][i] = 'filled'}
           			if (checkPosition(x+1,i) !== undefined) {body[x+1][i] = 'filled'}
 					bodyCounter++;

@@ -4,7 +4,7 @@ const shipFactory = (length) => {
 	let direction = "horizontal";
 
   for (let i = 1; i <= length; i++) {
-    body[i] = {status: true, bodyPart: i};
+    body[i] = true;
   }
 
   const hit = (bodyCell) => {
