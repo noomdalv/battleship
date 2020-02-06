@@ -9,7 +9,7 @@ const gameBoard = () => {
 	for (let i = 1; i <= 10; i++) {
 		body[i] = {};
 		for (let j = 1; j <= 10; j++) {
-			body[i][j] = 'empty';
+			body[i][j] = {status: 'empty', shipStorageIndex: null, shipBodyIndex: null}
 		}
 	}
 
@@ -17,16 +17,17 @@ const gameBoard = () => {
 	const checkPosition = (row, col) => {
     if (row === 0 || row > 10 || col === 0 || col > 10) {
       return undefined;
-    };
+    }
 		return body[row][col];
 	}
 
 	//ship storage
 	let shipStorage = {
-		1: {1: shipFactory(1), 2: shipFactory(1), 3: shipFactory(1), 4: shipFactory(1)},
-		2: {1: shipFactory(2), 2: shipFactory(2), 3: shipFactory(2)},
-		3: {1: shipFactory(3), 2: shipFactory(3)},
-		4: {1: shipFactory(4)}
+		1: shipFactory(1),
+		2: shipFactory(2),
+		3: shipFactory(3),
+		4: shipFactory(4),
+		5: shipFactory(5),
 	}
 
 	//ship selection
@@ -45,7 +46,7 @@ const gameBoard = () => {
     if (((y - 1 + shipSize) > 10 && ship.direction === "horizontal") ||
         ((x - 1 + shipSize) > 10 && ship.direction === "vertical")) {
           return false;
-    };
+    }
 
     if (checkPosition(x, y) === 'empty' && ship.direction === "horizontal") {
       for (let i = y-1; i <= (y + shipSize); i++) {
@@ -84,42 +85,67 @@ const gameBoard = () => {
 		let bodyCounter = 1;
 		if (spaceAvailable(ship, x, y)) {
 			if (ship.direction === "horizontal") {
-
-        if (checkPosition(x,y-1) !== undefined) {body[x][y-1] = 'filled'};
-        if (checkPosition(x,y+shipSize) !== undefined) {body[x][y+shipSize] = 'filled'};
+				if (checkPosition(x,y-1) !== undefined) {body[x][y-1] = 'filled'}
+        		if (checkPosition(x,y+shipSize) !== undefined) {body[x][y+shipSize] = 'filled'}
 
 				for (let i = y; i < (y + shipSize); i++) {
-          body[x][i] = ship.body[bodyCounter];
-					console.log("i = " + i);
-					console.log(body[x][i]);
-          if (checkPosition(x-1,i) !== undefined) {body[x-1][i] = 'filled'};
-          if (checkPosition(x+1,i) !== undefined) {body[x+1][i] = 'filled'};
+					body[x][i] = {status = ship.body[bodyCounter], shipStorageIndex: };
+					if (checkPosition(x-1,i) !== undefined) {body[x-1][i] = 'filled'}
+          			if (checkPosition(x+1,i) !== undefined) {body[x+1][i] = 'filled'}
 					bodyCounter++;
 				}
 			} else {
-				console.log("xxxx");
-        if (checkPosition(x-1,y) !== undefined) {body[x-1][y] = 'filled'};
-        if (checkPosition(x+shipSize,y) !== undefined) {body[x+shipSize][y] = 'filled'};
+				if (checkPosition(x-1,y) !== undefined) {body[x-1][y] = 'filled'}
+        		if (checkPosition(x+shipSize,y) !== undefined) {body[x+shipSize][y] = 'filled'}
 
 				for (let i = x; i < (x + shipSize); i++) {
-          body[i][y] = ship.body[bodyCounter];
-          if (checkPosition(i,y+1) !== undefined) {body[i][y+1] = 'filled'};
-          if (checkPosition(i,y-1) !== undefined) {body[i][y-1] = 'filled'};
+					body[i][y] = ship.body[bodyCounter];
+					if (checkPosition(i,y+1) !== undefined) {body[i][y+1] = 'filled'}
+          			if (checkPosition(i,y-1) !== undefined) {body[i][y-1] = 'filled'}
 					bodyCounter++;
 				}
-      }
+	  		}
+	  		return true;
 		} else {
-			alert("error, no space available")
+			return false;
 		}
-
 	}
 
-	//received attack
+	const randomPlacement = () => {
+
+		for (let i = 5; i >= 1; i--) {
+			let placed = false
+
+			while (!placed) {
+				let x = Math.floor(Math.random() * Math.floor(10)) + 1;
+				let y = Math.floor(Math.random() * Math.floor(10)) + 1;
+				placed = placeShip(shipStorage[i], x, y);
+			}			
+		};
+		return true
+	};
+
+	const receiveAttack = (x,y,ship) => {
+		if (body[x][y] === 'empty' || body[x][y] === 'filled' || body[x][y] === true) {
+
+			// change value to false if there's a ship
+
+			if (body[x][y] !== true) {
+				body[x][y] = 'miss';
+			};
+
+		} else {
+		alert('You can\'t hit this spot again.');
+		}
+	};
+
 
 
 	return { body, checkPosition, shipStorage, placeShip, selectShip, shipFactory,
-		get currentShip() { return currentShip }, spaceAvailable }
+		get currentShip() { return currentShip }, spaceAvailable, receiveAttack, randomPlacement }
 }
 
 let testBoard = gameBoard();
 export { gameBoard };
+
+

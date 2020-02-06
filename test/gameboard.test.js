@@ -15,10 +15,12 @@ describe('Place ships', () => {
   })
 
   test('Check if ship is placed correctly', () => {
-    const mockShip3 = shipFactory(3);
-    mockGameBoard.placeShip(mockShip3, 10, 8);		
-    expect(mockGameBoard.body[10][8]).toEqual(mockShip3.body[1]);
-    expect(mockGameBoard.body[10][9]).toEqual(mockShip3.body[2]);
-    expect(mockGameBoard.body[10][10]).toEqual(mockShip3.body[3]);
+    const mockShip3 = shipFactory(1);
+    mockGameBoard.placeShip(mockShip3, 1, 1);		
+    expect(mockGameBoard.body[1][1]).toEqual(mockShip3.body[1]);
+  })
+
+  test('mockTest', () => {
+    expect(mockGameBoard.randomPlacement()).toEqual(true);
   })
 });

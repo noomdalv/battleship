@@ -4,8 +4,8 @@ const shipFactory = (length) => {
 	let direction = "horizontal";
 
   for (let i = 1; i <= length; i++) {
-    body[i] = true;
-  };
+    body[i] = {status: true, bodyPart: i};
+  }
 
   const hit = (bodyCell) => {
     body[bodyCell] = false;
@@ -25,7 +25,7 @@ const shipFactory = (length) => {
       direction = 'vertical';
     } else {
       direction = 'horizontal';
-    };
+    }
   };
 
 
