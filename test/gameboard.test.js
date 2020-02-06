@@ -21,6 +21,7 @@ describe('Place ships', () => {
   })
 
   test('mockTest', () => {
-    expect(mockGameBoard.randomPlacement()).toEqual(true);
+    mockGameBoard.receiveAttack(1,1)
+    expect(mockGameBoard.body[1][1].status).toEqual(false);
   })
 });

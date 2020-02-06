@@ -4,16 +4,16 @@ const shipFactory = (length) => {
 	let direction = "horizontal";
 
   for (let i = 1; i <= length; i++) {
-    body[i] = true;
+    body[i] = {status: true, bodyIndex: i, shipLength: length};
   }
 
-  const hit = (bodyCell) => {
-    body[bodyCell] = false;
+  const hit = (index) => {
+    body[index].status = false;
   };
 
   const isSunk = () => {
-    for (let i = 0; i < Object.keys(body).length; i++) {
-      if ( body[i] === true ) {
+    for (let i = 1; i <= length; i++) {
+      if ( body[i].status === true ) {
         return false;
       }
     }

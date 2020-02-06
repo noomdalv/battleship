@@ -125,13 +125,16 @@ const gameBoard = () => {
 		return true
 	};
 
-	const receiveAttack = (x,y,ship) => {
-		if (body[x][y] === 'empty' || body[x][y] === 'filled' || body[x][y] === true) {
+	const receiveAttack = (x,y) => {
+		if (body[x][y] === 'empty' || body[x][y] === 'filled' || typeof(body[x][y]) === 'object' && body[x][y].status === true) {
 
 			// change value to false if there's a ship
 
-			if (body[x][y] !== true) {
+			if (typeof(body[x][y]) === 'string') {
 				body[x][y] = 'miss';
+			} else {
+				body[x][y].status = false;
+				shipStorage[body[x][y].shipLength].hit(body[x][y].bodyIndex);
 			};
 
 		} else {
