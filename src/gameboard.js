@@ -1,7 +1,7 @@
 import { shipFactory } from './ship';
 
 
-const gameBoard = () => {
+const gameBoardFactory = () => {
 
 	// board creation
 	const body = {};
@@ -12,6 +12,8 @@ const gameBoard = () => {
 			body[i][j] = 'empty';
 		}
 	}
+
+	let attacksCounter = 0;
 
 	//position check
 	const checkPosition = (row, col) => {
@@ -135,11 +137,12 @@ const gameBoard = () => {
 
 			if (typeof(body[x][y]) === 'string') {
 				body[x][y] = 'miss';
-				return true;
+				return 'miss';
 			} else {
 				body[x][y].status = false;
 				shipStorage[body[x][y].shipLength].hit(body[x][y].bodyIndex);
-				return true;
+				attacksCounter++;
+				return 'hit';
 			};
 
 		} else {
@@ -157,8 +160,24 @@ const gameBoard = () => {
 		return true
 	}
 
-	return { body, selectShip, placeShip, get currentShip() { return currentShip }, receiveAttack, randomPlacement, isSunkAll }
+	const areShipsPlaced = () => {
+		let shipBodyCounter = 0
+		for (let i = 1; i <= 10; i++) {
+			for (let j = 1; j <= 10; j++) {
+				if (typeof(body[i][j]) === 'object' && body[i][j].status) {
+					shipBodyCounter++;
+				}  
+			}
+		}
+		if (shipBodyCounter === 15) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	return { body, selectShip, placeShip, get currentShip() { return currentShip }, receiveAttack,
+			 randomPlacement, isSunkAll, areShipsPlaced }
 }
 
-let testBoard = gameBoard();
-export { gameBoard };
+export { gameBoardFactory };

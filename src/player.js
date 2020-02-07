@@ -1,5 +1,3 @@
-import { gameBoard } from './gameboard';
-
 const playerFactory = () => {
     const attack = (x,y, aiGB) => {
         aiGB.receiveAttack(x,y);
@@ -17,7 +15,7 @@ const aiFactory = () => {
             let y = Math.floor(Math.random() * Math.floor(10)) + 1;						
             validAttack = playerGB.receiveAttack(x,y);
         }
-        return true;
+        return validAttack;
     }
     return { attack };
 }
