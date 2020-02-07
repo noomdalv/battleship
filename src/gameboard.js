@@ -132,27 +132,29 @@ const gameBoard = () => {
 
 			if (typeof(body[x][y]) === 'string') {
 				body[x][y] = 'miss';
+				return true;
 			} else {
 				body[x][y].status = false;
 				shipStorage[body[x][y].shipLength].hit(body[x][y].bodyIndex);
+				return true;
 			};
 
 		} else {
-		alert('You can\'t hit this spot again.');
+			alert('You can\'t hit this spot again.');
+			return false;			
 		}
 	};
 
 	const isSunkAll = () => {
 		for (let i = 1; i <= shipStorage.length; i++) {
-			if (shipStorage[i].status === true) {
+			if (shipStorage[i].isSunk !== true) {
 				return false
 			}
 		}
 		return true
 	}
 
-	return { body, checkPosition, shipStorage, placeShip, selectShip, shipFactory,
-		get currentShip() { return currentShip }, spaceAvailable, receiveAttack, randomPlacement, isSunkAll }
+	return { body, selectShip, placeShip, get currentShip() { return currentShip }, receiveAttack, randomPlacement, isSunkAll }
 }
 
 let testBoard = gameBoard();
