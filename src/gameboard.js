@@ -22,7 +22,7 @@ const gameBoard = () => {
 	}
 
 	//ship storage
-	let shipStorage = {
+	const shipStorage = {
 		1: shipFactory(1),
 		2: shipFactory(2),
 		3: shipFactory(3),
@@ -141,13 +141,14 @@ const gameBoard = () => {
 
 		} else {
 			alert('You can\'t hit this spot again.');
-			return false;			
+			return false;
+			
 		}
 	};
 
 	const isSunkAll = () => {
 		for (let i = 1; i <= shipStorage.length; i++) {
-			if (shipStorage[i].isSunk !== true) {
+			if (shipStorage[i].isSunk === false) {
 				return false
 			}
 		}

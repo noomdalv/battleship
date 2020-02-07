@@ -1,5 +1,6 @@
 import { gameBoard } from '../src/gameboard';
 import { shipFactory } from '../src/ship';
+import { aiFactory, playerFactory } from '../src/player';
 
 const mockGameBoard = gameBoard();
 const mockShip = shipFactory(1);
@@ -8,10 +9,6 @@ describe('Place ships', () => {
   test('Checks for current ship selected inside ship storage', () => {
 		mockGameBoard.selectShip(mockShip);
     expect(mockGameBoard.currentShip).toMatchObject(mockShip);
-  })
-
-  test('Check if space is available to place the ship', () => {
-    expect(mockGameBoard.spaceAvailable(mockShip, 10, 1)).toEqual(true);
   })
 
   test('Check if ship is placed correctly', () => {
@@ -27,9 +24,15 @@ describe('Place ships', () => {
   })
 
 	test('Checks if all the ships are sunk(status: false)', () => {
-		for (let i = 1; i <= mockGameBoard.shipStorage.length; i++) {
-			mockGameBoard.shipStorage[i].status === false
-		}
+    let gameOver = false;
+    let ai = aiFactory();
+    let mockGameBoard2 = gameBoard();
+    mockGameBoard2.randomPlacement();
+    while (!gameOver) {
+      ai.attack(mockGameBoard2)
+      gameOver = mockGameBoard2.isSunkAll();
+    }
 		expect(mockGameBoard.isSunkAll()).toEqual(true);
-	})
+  })
+  
 });
