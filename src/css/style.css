@@ -9,9 +9,6 @@ main {
 	height: max-content;
 }
 
-#switchDirectionBtn {
-}
-
 .ship {
 	height: 30px;
 }
@@ -34,4 +31,9 @@ main {
 
 #ship-5 {
 	width: 150px;
+}
+
+.cell {
+	height: 30px;
+	width: 10px;
 }

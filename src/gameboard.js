@@ -79,7 +79,12 @@ const gameBoardFactory = () => {
 		if (spaceAvailable(ship, x, y)) {
 			if (ship.direction === "horizontal") {
 				if (checkPosition(x,y-1) !== undefined) {body[x][y-1] = 'filled'}
-        		if (checkPosition(x,y+shipSize) !== undefined) {body[x][y+shipSize] = 'filled'}
+				if (checkPosition(x+1,y-1) !== undefined) {body[x+1][y-1] = 'filled'}
+				if (checkPosition(x-1,y-1) !== undefined) {body[x-1][y-1] = 'filled'}
+				if (checkPosition(x,y+shipSize) !== undefined) {body[x][y+shipSize] = 'filled'}
+				if (checkPosition(x+1,y+shipSize) !== undefined) {body[x+1][y+shipSize] = 'filled'}
+				if (checkPosition(x-1,y+shipSize) !== undefined) {body[x-1][y+shipSize] = 'filled'}
+				
 
 				for (let i = y; i < (y + shipSize); i++) {
 					body[x][i] = ship.body[bodyCounter];
@@ -89,7 +94,11 @@ const gameBoardFactory = () => {
 				}
 			} else {
 				if (checkPosition(x-1,y) !== undefined) {body[x-1][y] = 'filled'}
-        		if (checkPosition(x+shipSize,y) !== undefined) {body[x+shipSize][y] = 'filled'}
+				if (checkPosition(x-1,y+1) !== undefined) {body[x-1][y+1] = 'filled'}
+				if (checkPosition(x-1,y-1) !== undefined) {body[x-1][y-1] = 'filled'}
+				if (checkPosition(x+shipSize,y) !== undefined) {body[x+shipSize][y] = 'filled'}
+				if (checkPosition(x+shipSize,y+1) !== undefined) {body[x+shipSize][y+1] = 'filled'}
+				if (checkPosition(x+shipSize,y-1) !== undefined) {body[x+shipSize][y-1] = 'filled'}
 
 				for (let i = x; i < (x + shipSize); i++) {
 					body[i][y] = ship.body[bodyCounter];
