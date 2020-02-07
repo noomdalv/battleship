@@ -13,7 +13,7 @@ const shipFactory = (length) => {
 
   const isSunk = () => {
     for (let i = 1; i <= length; i++) {
-      if ( body[i].status === true ) {
+      if (body[i].status) {
         return false;
       }
     }

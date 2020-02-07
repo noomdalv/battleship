@@ -115,12 +115,15 @@ const gameBoard = () => {
 
 		for (let i = 5; i >= 1; i--) {
 			let placed = false
+			if (Math.floor(Math.random() * Math.floor(2)) === 0) {
+				shipStorage[i].switchDirection()
+			}
 
 			while (!placed) {
 				let x = Math.floor(Math.random() * Math.floor(10)) + 1;
 				let y = Math.floor(Math.random() * Math.floor(10)) + 1;
 				placed = placeShip(shipStorage[i], x, y);
-			}
+			}			
 		};
 		return true
 	};
@@ -140,15 +143,14 @@ const gameBoard = () => {
 			};
 
 		} else {
-			alert('You can\'t hit this spot again.');
+			// alert('You can\'t hit this spot again.');
 			return false;
-			
 		}
 	};
 
 	const isSunkAll = () => {
-		for (let i = 1; i <= shipStorage.length; i++) {
-			if (shipStorage[i].isSunk === false) {
+		for (let i = 1; i <= 5; i++) {
+			if (!shipStorage[i].isSunk()) {
 				return false
 			}
 		}
