@@ -177,7 +177,7 @@ const gameBoardFactory = () => {
 	}
 
 	return { body, selectShip, placeShip, get currentShip() { return currentShip }, receiveAttack,
-			 randomPlacement, isSunkAll, areShipsPlaced }
+			 randomPlacement, isSunkAll, areShipsPlaced, get attacksCounter() {return attacksCounter} }
 }
 
 export { gameBoardFactory };
