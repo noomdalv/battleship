@@ -1,0 +1,37 @@
+main {
+	width: 800px;
+	height: 800px;
+	margin: auto;
+}
+
+#ship-storage-container {
+	width: 200px;
+	height: max-content;
+}
+
+#switchDirectionBtn {
+}
+
+.ship {
+	height: 30px;
+}
+
+#ship-1 {
+	width: 30px;
+}
+
+#ship-2 {
+	width: 60px;
+}
+
+#ship-3 {
+	width: 90px;
+}
+
+#ship-4 {
+	width: 120px;
+}
+
+#ship-5 {
+	width: 150px;
+}

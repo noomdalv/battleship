@@ -32,15 +32,6 @@ const gameBoardFactory = () => {
 		5: shipFactory(5),
 	}
 
-	//ship selection
-	let currentShip = {};
-
-	const selectShip = (ship) => {
-		currentShip = ship
-	}
-
-
-
 
 	const spaceAvailable = (ship, x, y) => {
 		const shipSize = Object.keys(ship.body).length;
@@ -125,7 +116,7 @@ const gameBoardFactory = () => {
 				let x = Math.floor(Math.random() * Math.floor(10)) + 1;
 				let y = Math.floor(Math.random() * Math.floor(10)) + 1;
 				placed = placeShip(shipStorage[i], x, y);
-			}			
+			}
 		};
 		return true
 	};
@@ -166,7 +157,7 @@ const gameBoardFactory = () => {
 			for (let j = 1; j <= 10; j++) {
 				if (typeof(body[i][j]) === 'object' && body[i][j].status) {
 					shipBodyCounter++;
-				}  
+				}
 			}
 		}
 		if (shipBodyCounter === 15) {
@@ -176,8 +167,8 @@ const gameBoardFactory = () => {
 		}
 	}
 
-	return { body, selectShip, placeShip, get currentShip() { return currentShip }, receiveAttack,
-			 randomPlacement, isSunkAll, areShipsPlaced, get attacksCounter() {return attacksCounter} }
+	return { body, placeShip, receiveAttack,
+			 randomPlacement, isSunkAll, areShipsPlaced, get attacksCounter() {return attacksCounter}, get shipStorage() {return shipStorage} }
 }
 
 export { gameBoardFactory };
