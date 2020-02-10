@@ -43,27 +43,27 @@ const gameBoardFactory = (ai = false) => {
           return false;
     }
 
-    if (checkPosition(x, y) === 'empty' && ship.direction === "horizontal") {
+    if (typeof(checkPosition(x, y)) === 'string' && ship.direction === "horizontal") {
       for (let i = y-1; i <= (y + shipSize); i++) {
-				if (checkPosition(x, i) !== 'empty' && checkPosition(x, i) !== undefined) {
+				if (typeof(checkPosition(x, i)) !== 'string' && checkPosition(x, i) !== undefined) {
 					return false;
         }
         for (let j = x -1; j <= (x + 1); j+= 2) {
-          if (checkPosition(j,i) !== 'empty' && checkPosition(j, i) !== undefined) {
+          if (typeof(checkPosition(j, i)) !== 'string' && checkPosition(j, i) !== undefined) {
             return false;
           }
         }
 			}
       return true;
 
-		} else if (checkPosition(x, y) === 'empty' && ship.direction === "vertical") {
+		} else if (typeof(checkPosition(x, y)) === 'string' && ship.direction === "vertical") {
 
       for (let i = x-1; i <= (x + shipSize); i++) {
-				if (checkPosition(i, y) !== 'empty' && checkPosition(i, y) !== undefined) {
+				if (typeof(checkPosition(i, y)) !== 'string' && checkPosition(i, y) !== undefined) {
 					return false;
         }
         for (let j = y -1; j <= (y + 1); j+= 2) {
-          if (checkPosition(i,j) !== 'empty' && checkPosition(i, j) !== undefined) {
+          if (typeof(checkPosition(i,j)) !== 'string' && checkPosition(i, j) !== undefined) {
             return false;
           }
         }

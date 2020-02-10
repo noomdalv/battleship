@@ -12,7 +12,9 @@ const Render = () => {
 
   const renderNav = () => {
     let instructions = document.createElement('div');
-    instructions.innerHTML = 'Place your ships.';
+    instructions.innerHTML = `Place your ships clicking on any given ship in the left box and then clicking in any given cell on the board.<br>
+                              Your ship\'s \'head\' will always be positioned on the cell you clicked. To switch the direction of the ship, click<br> 
+                              the button at the top right corner of the left menu. When you\'re done placing all of your ships, press ready!`;
     instructions.classList = 'text-center mt-5 border border-info bg-light'
     nav.appendChild(instructions);
   };
@@ -62,6 +64,16 @@ const Render = () => {
       // start game
     })
     shipStorageDiv.appendChild(readyBtn);
+
+    const resetBtn = document.createElement('button');
+    resetBtn.innerHTML = 'Reset Gameboard';
+    resetBtn.id = 'reset-btn'
+    resetBtn.classList = 'btn btn-block btn-secondary mb-2';
+    resetBtn.style = 'background-color: white; color: #6c757d'
+    resetBtn.addEventListener('click', () => {
+      window.location.reload();      
+    })
+    shipStorageDiv.appendChild(resetBtn);
   }
 
   const renderBoard = (board, cellFunction) => {
@@ -127,9 +139,15 @@ const Render = () => {
     if (!currentShip) {
       alert('Select a ship from the left menu before!');
     } else {
-      board.placeShip(currentShip, x, y);
-			domBoard.innerHTML = "";
-      renderBoard(board, placeShipCell);
+      if(board.placeShip(currentShip, x, y)) {
+        let shipSize = currentShip.body[1].shipLength;
+        let usedShip = document.getElementById(`ship-${shipSize}`);
+        usedShip.style.visibility = 'hidden';
+        domBoard.innerHTML = "";
+        renderBoard(board, placeShipCell);
+      } else {
+        alert("This is an invalid position.");
+      }
     }
   }
 
