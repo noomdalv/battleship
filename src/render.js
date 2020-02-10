@@ -64,11 +64,10 @@ const Render = () => {
     shipStorageDiv.appendChild(readyBtn);
   }
 
+  const renderBoard = (board, cellFunction) => {
 
-  const renderBoard = (board,cellFunction) => { 
-    
     const currentBoard = board.isAI ? document.getElementById('ai-gameboard') : document.getElementById('player-gameboard');
-    
+
     for (let i = 0; i <= 10; i++) {
       let row = document.createElement('div');
 			if (i === 0) {
@@ -104,7 +103,7 @@ const Render = () => {
             } else {
               cell.classList = 'cellcol';
             }
-            
+
 					} else if (j === 0 && i !== 0){
 						cell.innerHTML = i;
 					}
@@ -113,26 +112,32 @@ const Render = () => {
           let x = parseInt(cell.getAttribute('data-x'));
           let y = parseInt(cell.getAttribute('data-y'))
           cell.addEventListener('click', () => {
+						console.log(board.body);
+						cellFunction(currentBoard, board, x, y)
           });
 				}
       }
     }
+
+
   }
 
 
-  const placeShipCell = (x,y) => {
+  const placeShipCell = (domBoard, board, x,y) => {
     if (!currentShip) {
       alert('Select a ship from the left menu before!');
-    } else { 
+    } else {
       board.placeShip(currentShip, x, y);
-      renderBoard(board,placeShipCell);
+			domBoard.innerHTML = "";
+      renderBoard(board, placeShipCell);
     }
   }
 
-  const attackShipCell = (x,y) => {
+  const attackShipCell = (board, x,y) => {
     if (board.isAI) {
       player.attack(x,y);
-      renderBoard(board,attackShipCell);
+			domBoard.innerHTML = "";
+      renderBoard(board, attackShipCell);
     }
   };
 
