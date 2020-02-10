@@ -10,6 +10,15 @@ const Render = () => {
 
   let currentShip;
 
+  const nav = document.getElementById('nav');
+
+  const renderNav = () => {
+    let instructions = document.createElement('div');
+    instructions.innerHTML = 'Place your ships.';
+    instructions.classList = 'text-center mt-5 border border-info bg-light'
+    nav.appendChild(instructions);
+  };
+
   const renderShipStorage = () => {
     const switchDirectionBtn = document.createElement('button');
     switchDirectionBtn.innerHTML = "V";
@@ -26,6 +35,7 @@ const Render = () => {
         currentShip = playerGB.shipStorage[i];
         switchDirectionBtn.innerHTML = currentShip.direction === 'horizontal' ? 'V': 'H';
       })
+
     }
 
 
@@ -44,6 +54,16 @@ const Render = () => {
 
 
     })
+
+    const readyBtn = document.createElement('button');
+    readyBtn.innerHTML = 'Ready';
+    readyBtn.id = 'ready-btn'
+    readyBtn.classList = 'btn btn-block btn-success mb-2';
+    readyBtn.style = 'background-color: white; color: #28a745;'
+    readyBtn.addEventListener('click', () => {
+      // start game
+    })
+    shipStorageDiv.appendChild(readyBtn);
   }
 
   const renderPlacementBoard = () => {
@@ -89,7 +109,7 @@ const Render = () => {
     }
   }
 
-  return { renderShipStorage, get currentShip() { return currentShip }, renderPlacementBoard };
+  return { renderShipStorage, get currentShip() { return currentShip }, renderPlacementBoard, renderNav };
 
   // const ready = () => {
 

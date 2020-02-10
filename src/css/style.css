@@ -61,9 +61,6 @@ main {
 	grid-template-rows: repeat(11, 30px);
 }
 
-.row-letters {
-}
-
 .cellrow {
 	display: grid;
 	grid-template-columns: repeat(11, 30px);
@@ -82,4 +79,9 @@ main {
 .cell {
 	height: 30px;
 	width: 10px;
+}
+
+#ready-btn:hover {
+	font-weight: bold;
+	border: 2px solid #28a745;
 }

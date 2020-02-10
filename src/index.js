@@ -7,6 +7,7 @@ let initGame = Render();
 
 initGame.renderShipStorage();
 initGame.renderPlacementBoard();
+initGame.renderNav();
 
 
 // render gameboard
