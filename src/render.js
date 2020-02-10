@@ -1,10 +1,8 @@
-import { gameBoardFactory } from "./gameboard";
+import { playerFactory } from "./player";
 
 const Render = () => {
 
   // initialize players and gameboards
-
-  const playerGB = gameBoardFactory();
 
   const shipStorageDiv = document.getElementById('ship-storage-container');
 
@@ -19,7 +17,7 @@ const Render = () => {
     nav.appendChild(instructions);
   };
 
-  const renderShipStorage = () => {
+  const renderShipStorage = (board) => {
     const switchDirectionBtn = document.createElement('button');
     switchDirectionBtn.innerHTML = "V";
     switchDirectionBtn.classList = "btn direction-btn float-right mt-3 mr-2"
@@ -32,7 +30,7 @@ const Render = () => {
       shipStorageDiv.appendChild(shipContainer);
 
       shipContainer.addEventListener("click", () => {
-        currentShip = playerGB.shipStorage[i];
+        currentShip = board.shipStorage[i];
         switchDirectionBtn.innerHTML = currentShip.direction === 'horizontal' ? 'V': 'H';
       })
 
@@ -66,8 +64,11 @@ const Render = () => {
     shipStorageDiv.appendChild(readyBtn);
   }
 
-  const renderPlacementBoard = () => {
-    const board = document.getElementById('player-gameboard');
+
+  const renderBoard = (board,cellFunction) => { 
+    
+    const currentBoard = board.isAI ? document.getElementById('ai-gameboard') : document.getElementById('player-gameboard');
+    
     for (let i = 0; i <= 10; i++) {
       let row = document.createElement('div');
 			if (i === 0) {
@@ -83,33 +84,60 @@ const Render = () => {
 			} else {
 				row.classList = 'cellrow';
 			}
-      board.appendChild(row);
+      currentBoard.appendChild(row);
 
 			if (i !== 0) {
 				for (let j = 0; j <= 10; j++) {
 	        let cell = document.createElement('div');
 					if (j !== 0) {
-						cell.classList = 'cellcol';
 		        cell.setAttribute('data-x', i);
-		        cell.setAttribute('data-y', j);
+            cell.setAttribute('data-y', j);
+
+            if (typeof(board.body[i][j]) === 'object') {
+              if ( !board.isAi && board.body[i][j].status) {
+                cell.classList = 'ship-display'
+              } else {
+                cell.classList = 'attack-display';
+              };
+            } else if (board.body[i][j] === 'miss') {
+              cell.classList = 'miss-display';
+            } else {
+              cell.classList = 'cellcol';
+            }
+            
 					} else if (j === 0 && i !== 0){
 						cell.innerHTML = i;
 					}
 
-	        row.appendChild(cell);
-					cell.addEventListener('click', () => {
-	          if (!currentShip) {
-	            alert('Select a ship from the left menu before!');
-	          } else {
-	            playerGB.placeShip(currentShip, parseInt(cell.getAttribute('data-x')), parseInt(cell.getAttribute('data-y')));
-	          }
-	        })
+          row.appendChild(cell);
+          let x = parseInt(cell.getAttribute('data-x'));
+          let y = parseInt(cell.getAttribute('data-y'))
+          cell.addEventListener('click', () => {
+          });
 				}
       }
     }
   }
 
-  return { renderShipStorage, get currentShip() { return currentShip }, renderPlacementBoard, renderNav };
+
+  const placeShipCell = (x,y) => {
+    if (!currentShip) {
+      alert('Select a ship from the left menu before!');
+    } else { 
+      board.placeShip(currentShip, x, y);
+      renderBoard(board,placeShipCell);
+    }
+  }
+
+  const attackShipCell = (x,y) => {
+    if (board.isAI) {
+      player.attack(x,y);
+      renderBoard(board,attackShipCell);
+    }
+  };
+
+
+  return { renderShipStorage, get currentShip() { return currentShip }, renderBoard, renderNav, attackShipCell, placeShipCell };
 
   // const ready = () => {
 

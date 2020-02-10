@@ -1,7 +1,9 @@
 import { shipFactory } from './ship';
 
 
-const gameBoardFactory = () => {
+const gameBoardFactory = (ai = false) => {
+
+	const isAI = ai;
 
 	// board creation
 	const body = {};
@@ -177,7 +179,8 @@ const gameBoardFactory = () => {
 	}
 
 	return { body, placeShip, receiveAttack,
-			 randomPlacement, isSunkAll, areShipsPlaced, get attacksCounter() {return attacksCounter}, get shipStorage() {return shipStorage} }
+			 randomPlacement, isSunkAll, areShipsPlaced,
+			 get attacksCounter() {return attacksCounter}, get shipStorage() {return shipStorage}, get isAI() {return isAI} }
 }
 
 export { gameBoardFactory };
