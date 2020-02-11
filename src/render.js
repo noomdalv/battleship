@@ -22,7 +22,7 @@ const Render = () => {
     let instructions = document.createElement('div');
     instructions.id = 'instructions';
     instructions.innerHTML = `Place your ships clicking on any given ship in the left box and then clicking in any given cell on the board.<br>
-                              Your ship\'s \'head\' will always be positioned on the cell you clicked. To switch the direction of the ship, click<br> 
+                              Your ship\'s \'head\' will always be positioned on the cell you clicked. To switch the direction of the ship, click<br>
                               the button at the top right corner of the left menu. When you\'re done placing all of your ships, press ready!`;
     instructions.classList = 'text-center mt-5 border border-info bg-light'
     nav.appendChild(instructions);
@@ -76,7 +76,7 @@ const Render = () => {
       storageContainer.style.visibility = 'hidden';
       playerGB = gameBoardFactory();
       playerGB.randomPlacement();
-      renderBoard();      
+      renderBoard();
     })
     shipStorageDiv.appendChild(randomBtn);
 
@@ -89,7 +89,7 @@ const Render = () => {
       if (playerGB.areShipsPlaced()) {
         shipStorageDiv.style.display = 'none';
         renderBoard();
-        renderBoard(true, attackShipCell);
+        renderBoard(attackShipCell, true);
         let instructions = document.getElementById('instructions');
         instructions.innerHTML = 'Click on any given cell on the right board to attack.';
       } else {
@@ -105,16 +105,16 @@ const Render = () => {
     resetBtn.classList = 'btn btn-block btn-secondary mb-2';
     resetBtn.style = 'background-color: white; color: #6c757d'
     resetBtn.addEventListener('click', () => {
-      window.location.reload();      
+      window.location.reload();
     })
     shipStorageDiv.appendChild(resetBtn);
   }
 
   const renderBoard = (cellFunction = false, ai = false) => {
-
     const currentBoard = ai ? document.getElementById('ai-gameboard') : document.getElementById('player-gameboard');
     currentBoard.innerHTML = '';
     const board = ai ? aiGB : playerGB;
+		currentBoard.classList = "col-5 m-2";
 
     for (let i = 0; i <= 10; i++) {
       let row = document.createElement('div');
@@ -141,16 +141,18 @@ const Render = () => {
             cell.setAttribute('data-y', j);
 
             if (typeof(board.body[i][j]) === 'object') {
-              if ( !board.isAi && board.body[i][j].status) {
+              if (!ai && board.body[i][j].status) {
                 cell.classList = 'ship-display'
-              } else {
+              } else if (!board.body[i][j].status) {
                 cell.classList = 'attack-display';
-              };
+              } else if (ai && board.body[i][j].status) {
+								cell.classList = 'cellcol'
+							}
             } else if (board.body[i][j] === 'miss') {
               cell.classList = 'miss-display';
             } else {
-              cell.classList = 'cellcol';
-            }
+							cell.classList = 'cellcol';
+						}
 
 					} else if (j === 0 && i !== 0){
 						cell.innerHTML = i;
@@ -161,17 +163,13 @@ const Render = () => {
           let y = parseInt(cell.getAttribute('data-y'))
           if (cellFunction !== false) {
             cell.addEventListener('click', () => {
-              console.log(board.body);
               cellFunction(currentBoard, board, x, y)
             });
           };
 				}
       }
     }
-
-
   }
-
 
   const placeShipCell = (domBoard, board, x,y) => {
     if (!currentShip) {
@@ -181,7 +179,6 @@ const Render = () => {
         let shipSize = currentShip.body[1].shipLength;
         let usedShip = document.getElementById(`ship-${shipSize}`);
         usedShip.style.visibility = 'hidden';
-        domBoard.innerHTML = "";
         renderBoard(placeShipCell);
       } else {
         alert("This is an invalid position.");
@@ -189,12 +186,11 @@ const Render = () => {
     }
   }
 
-  const attackShipCell = (board, x,y) => {
-    if (board.isAI) {
-      player.attack(x,y);
+  const attackShipCell = (domBoard, board, x,y) => {
+      player.attack(x,y, aiGB);
+			console.log(aiGB.body);
 			domBoard.innerHTML = "";
-      renderBoard(board, attackShipCell);
-    }
+      renderBoard(Render.attackShipCell, true);
   };
 
 

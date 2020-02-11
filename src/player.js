@@ -1,5 +1,5 @@
 const playerFactory = () => {
-    const attack = (x,y, aiGB) => {
+    const attack = (x, y, aiGB) => {
         aiGB.receiveAttack(x,y);
     }
 
@@ -12,7 +12,7 @@ const aiFactory = () => {
         let validAttack = false;
         while (!validAttack) {
             let x = Math.floor(Math.random() * Math.floor(10)) + 1;
-            let y = Math.floor(Math.random() * Math.floor(10)) + 1;						
+            let y = Math.floor(Math.random() * Math.floor(10)) + 1;
             validAttack = playerGB.receiveAttack(x,y);
         }
         return validAttack;

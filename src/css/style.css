@@ -54,9 +54,8 @@ main {
 	width: 150px;
 }
 
-#player-gameboard {
+#player-gameboard, #ai-gameboard {
 	display: grid;
-	height: 450px;
 	justify-content: center;
 	grid-template-rows: repeat(11, 30px);
 }
@@ -76,11 +75,6 @@ main {
 	border: none;
 }
 
-.cell {
-	height: 30px;
-	width: 10px;
-}
-
 #ready-btn:hover {
 	font-weight: bold;
 	border: 2px solid #28a745;
@@ -89,4 +83,12 @@ main {
 .ship-display {
 	border: solid white 2px;
 	background-color: #007bff;
+}
+
+.attack-display {
+	background-color: red;
+}
+
+.miss-display {
+	background-color: gray;
 }

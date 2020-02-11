@@ -84,7 +84,7 @@ const gameBoardFactory = (ai = false) => {
 				if (checkPosition(x,y+shipSize) !== undefined) {body[x][y+shipSize] = 'filled'}
 				if (checkPosition(x+1,y+shipSize) !== undefined) {body[x+1][y+shipSize] = 'filled'}
 				if (checkPosition(x-1,y+shipSize) !== undefined) {body[x-1][y+shipSize] = 'filled'}
-				
+
 
 				for (let i = y; i < (y + shipSize); i++) {
 					body[x][i] = ship.body[bodyCounter];
@@ -143,8 +143,7 @@ const gameBoardFactory = (ai = false) => {
 				shipStorage[body[x][y].shipLength].hit(body[x][y].bodyIndex);
 				attacksCounter++;
 				return 'hit';
-			};
-
+			};			
 		} else {
 			// alert('You can\'t hit this spot again.');
 			return false;
