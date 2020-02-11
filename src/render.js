@@ -163,7 +163,7 @@ const Render = () => {
           let y = parseInt(cell.getAttribute('data-y'))
           if (cellFunction !== false) {
             cell.addEventListener('click', () => {
-              cellFunction(currentBoard, board, x, y)
+              cellFunction(board, x, y)
             });
           };
 				}
@@ -171,7 +171,7 @@ const Render = () => {
     }
   }
 
-  const placeShipCell = (domBoard, board, x,y) => {
+  const placeShipCell = (board, x,y) => {
     if (!currentShip) {
       alert('Select a ship from the left menu before!');
     } else {
@@ -186,11 +186,11 @@ const Render = () => {
     }
   }
 
-  const attackShipCell = (domBoard, board, x,y) => {
-      player.attack(x,y, aiGB);
-			console.log(aiGB.body);
-			domBoard.innerHTML = "";
-      renderBoard(Render.attackShipCell, true);
+  const attackShipCell = (board, x,y) => {
+      player.attack(x,y, board);
+      let aiBoard = document.getElementById('ai-gameboard')
+			aiBoard.innerHTML = "";
+      renderBoard(attackShipCell, true);
   };
 
 
