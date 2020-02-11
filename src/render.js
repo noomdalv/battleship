@@ -1,6 +1,14 @@
 import { playerFactory } from "./player";
+import { gameBoardFactory } from './gameboard';
+
+
 
 const Render = () => {
+
+  let playerGB = gameBoardFactory();
+  let aiGB = gameBoardFactory(true);
+  let player = playerFactory();
+  aiGB.randomPlacement();
 
   // initialize players and gameboards
 
@@ -12,6 +20,7 @@ const Render = () => {
 
   const renderNav = () => {
     let instructions = document.createElement('div');
+    instructions.id = 'instructions';
     instructions.innerHTML = `Place your ships clicking on any given ship in the left box and then clicking in any given cell on the board.<br>
                               Your ship\'s \'head\' will always be positioned on the cell you clicked. To switch the direction of the ship, click<br> 
                               the button at the top right corner of the left menu. When you\'re done placing all of your ships, press ready!`;
@@ -19,20 +28,22 @@ const Render = () => {
     nav.appendChild(instructions);
   };
 
-  const renderShipStorage = (board) => {
+  const renderShipStorage = () => {
     const switchDirectionBtn = document.createElement('button');
     switchDirectionBtn.innerHTML = "V";
     switchDirectionBtn.classList = "btn direction-btn float-right mt-3 mr-2"
     shipStorageDiv.appendChild(switchDirectionBtn)
+    let storageContainer = document.createElement('div');
+    shipStorageDiv.appendChild(storageContainer)
 
     for (let i = 1; i <= 5; i++) {
       let shipContainer = document.createElement('div');
       shipContainer.id = `ship-${i}`;
       shipContainer.classList = 'ship m-3';
-      shipStorageDiv.appendChild(shipContainer);
+      storageContainer.appendChild(shipContainer);
 
       shipContainer.addEventListener("click", () => {
-        currentShip = board.shipStorage[i];
+        currentShip = playerGB.shipStorage[i];
         switchDirectionBtn.innerHTML = currentShip.direction === 'horizontal' ? 'V': 'H';
       })
 
@@ -55,13 +66,36 @@ const Render = () => {
 
     })
 
+    const randomBtn = document.createElement('button');
+    randomBtn.innerHTML = 'Random';
+    randomBtn.id = 'random-btn'
+    randomBtn.classList = 'btn btn-block btn-warning mb-2';
+    randomBtn.style = 'background-color: white; color: #6c757d'
+    randomBtn.addEventListener('click', () => {
+      let ships = document.getElementsByClassName('ship');
+      storageContainer.style.visibility = 'hidden';
+      playerGB = gameBoardFactory();
+      playerGB.randomPlacement();
+      renderBoard();      
+    })
+    shipStorageDiv.appendChild(randomBtn);
+
     const readyBtn = document.createElement('button');
     readyBtn.innerHTML = 'Ready';
     readyBtn.id = 'ready-btn'
     readyBtn.classList = 'btn btn-block btn-success mb-2';
     readyBtn.style = 'background-color: white; color: #28a745;'
     readyBtn.addEventListener('click', () => {
-      // start game
+      if (playerGB.areShipsPlaced()) {
+        shipStorageDiv.style.display = 'none';
+        renderBoard();
+        renderBoard(true, attackShipCell);
+        let instructions = document.getElementById('instructions');
+        instructions.innerHTML = 'Click on any given cell on the right board to attack.';
+      } else {
+        alert('Place all of your ships before starting the game.');
+      };
+
     })
     shipStorageDiv.appendChild(readyBtn);
 
@@ -76,9 +110,11 @@ const Render = () => {
     shipStorageDiv.appendChild(resetBtn);
   }
 
-  const renderBoard = (board, cellFunction) => {
+  const renderBoard = (cellFunction = false, ai = false) => {
 
-    const currentBoard = board.isAI ? document.getElementById('ai-gameboard') : document.getElementById('player-gameboard');
+    const currentBoard = ai ? document.getElementById('ai-gameboard') : document.getElementById('player-gameboard');
+    currentBoard.innerHTML = '';
+    const board = ai ? aiGB : playerGB;
 
     for (let i = 0; i <= 10; i++) {
       let row = document.createElement('div');
@@ -123,10 +159,12 @@ const Render = () => {
           row.appendChild(cell);
           let x = parseInt(cell.getAttribute('data-x'));
           let y = parseInt(cell.getAttribute('data-y'))
-          cell.addEventListener('click', () => {
-						console.log(board.body);
-						cellFunction(currentBoard, board, x, y)
-          });
+          if (cellFunction !== false) {
+            cell.addEventListener('click', () => {
+              console.log(board.body);
+              cellFunction(currentBoard, board, x, y)
+            });
+          };
 				}
       }
     }
@@ -144,7 +182,7 @@ const Render = () => {
         let usedShip = document.getElementById(`ship-${shipSize}`);
         usedShip.style.visibility = 'hidden';
         domBoard.innerHTML = "";
-        renderBoard(board, placeShipCell);
+        renderBoard(placeShipCell);
       } else {
         alert("This is an invalid position.");
       }
