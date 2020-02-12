@@ -1,10 +1,9 @@
 const shipFactory = (length) => {
-
-  let body = {};
-	let direction = "horizontal";
+  const body = {};
+  let direction = 'horizontal';
 
   for (let i = 1; i <= length; i++) {
-    body[i] = {status: true, bodyIndex: i, shipLength: length};
+    body[i] = { status: true, bodyIndex: i, shipLength: length };
   }
 
   const hit = (index) => {
@@ -25,9 +24,13 @@ const shipFactory = (length) => {
   };
 
 
-
-  return { body, hit, isSunk, get direction() { return direction},
-           setDirection };
-}
+  return {
+    body,
+    hit,
+    isSunk,
+    get direction() { return direction; },
+    setDirection,
+  };
+};
 
 export { shipFactory };
