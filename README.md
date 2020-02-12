@@ -12,7 +12,7 @@
 
 ## Live Demo
 
-[Live Demo Link](https://marcos-medeiros.github.io/battleship/)
+[Live Demo Link](https://raw.githack.com/marcos-medeiros/battleship/game-setup/dist/index.html)
 
 
 ## Getting Started
