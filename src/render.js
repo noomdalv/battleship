@@ -30,7 +30,7 @@ const Render = (playerGB, aiGB) => {
     const directionImg = document.createElement('img');
     let direction = 'horizontal';
     directionImg.id = 'direction-img';
-    directionImg.src = '../src/icons/arrows-alt-h-solid.svg';
+    directionImg.src = './icons/arrows-alt-h-solid.svg';
     directionImg.classList = 'float-right mt-3 mr-1';
     shipStorageDiv.appendChild(directionImg);
     const storageContainer = document.createElement('div');
@@ -53,13 +53,13 @@ const Render = (playerGB, aiGB) => {
         if (currentShip) {
           currentShip.setDirection('vertical');
         }
-        directionImg.src = '../src/icons/arrows-alt-v-solid.svg';
+        directionImg.src = './icons/arrows-alt-v-solid.svg';
         direction = 'vertical';
 	    } else if (direction === 'vertical') {
         if (currentShip) {
           currentShip.setDirection('horizontal');
         }
-        directionImg.src = '../src/icons/arrows-alt-h-solid.svg';
+        directionImg.src = './icons/arrows-alt-h-solid.svg';
         direction = 'horizontal';
 	    }
     });
