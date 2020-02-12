@@ -1,5 +1,5 @@
-import { gameBoardFactory } from '../src/gameboard';
-import { shipFactory } from '../src/ship';
+import gameBoardFactory from '../src/gameboard';
+import shipFactory from '../src/ship';
 import { aiFactory } from '../src/player';
 
 const mockGameBoard = gameBoardFactory();

@@ -1,12 +1,13 @@
 import { aiFactory } from './player';
-import { gameBoardFactory } from './gameboard';
+import gameBoardFactory from './gameboard';
 
 
 const Render = (playerGB, aiGB) => {
   const aiUser = aiFactory();
-
   aiGB.randomPlacement();
 
+  const customAlert = document.getElementById('custom-alert');
+  customAlert.style.display = 'none';
   // initialize players and gameboards
 
   const shipStorageDiv = document.getElementById('ship-storage-container');
@@ -26,96 +27,16 @@ const Render = (playerGB, aiGB) => {
     nav.appendChild(instructions);
   };
 
-  const renderShipStorage = (player) => {
-    const directionImg = document.createElement('img');
-    let direction = 'horizontal';
-    directionImg.id = 'direction-img';
-    directionImg.src = './icons/arrows-alt-h-solid.svg';
-    directionImg.classList = 'float-right mt-3 mr-1';
-    shipStorageDiv.appendChild(directionImg);
-    const storageContainer = document.createElement('div');
-    shipStorageDiv.appendChild(storageContainer);
-
-    for (let i = 1; i <= 5; i++) {
-      const shipContainer = document.createElement('div');
-      shipContainer.id = `ship-${i}`;
-      shipContainer.classList = 'ship m-3';
-      storageContainer.appendChild(shipContainer);
-
-      shipContainer.addEventListener('click', () => {
-        currentShip = playerGB.shipStorage[i];
-        currentShip.setDirection(direction);
-      });
-    }
-
-    directionImg.addEventListener('click', () => {
-      if (direction === 'horizontal') {
-        if (currentShip) {
-          currentShip.setDirection('vertical');
-        }
-        directionImg.src = './icons/arrows-alt-v-solid.svg';
-        direction = 'vertical';
-	    } else if (direction === 'vertical') {
-        if (currentShip) {
-          currentShip.setDirection('horizontal');
-        }
-        directionImg.src = './icons/arrows-alt-h-solid.svg';
-        direction = 'horizontal';
-	    }
-    });
-
-    const randomBtn = document.createElement('button');
-    randomBtn.innerHTML = 'Random';
-    randomBtn.id = 'random-btn';
-    randomBtn.classList = 'btn btn-block btn-warning mb-2';
-    randomBtn.style = 'background-color: white; color: black;';
-    randomBtn.addEventListener('click', () => {
-      storageContainer.style.visibility = 'hidden';
-      playerGB = gameBoardFactory();
-      playerGB.randomPlacement();
-      renderBoard();
-    });
-    shipStorageDiv.appendChild(randomBtn);
-
-    const readyBtn = document.createElement('button');
-    readyBtn.innerHTML = 'Ready';
-    readyBtn.id = 'ready-btn';
-    readyBtn.classList = 'btn btn-block btn-success mb-2';
-    readyBtn.style = 'background-color: white; color: #28a745;';
-    readyBtn.addEventListener('click', () => {
-      if (playerGB.areShipsPlaced()) {
-        shipStorageDiv.style.display = 'none';
-        renderBoard(player);
-        renderBoard(player, attackShipCell, true);
-        const instructions = document.getElementById('instructions');
-        instructions.innerHTML = 'Click on any given cell on the right board to attack.';
-      } else {
-        alert('Place all of your ships before starting the game.');
-      }
-    });
-    shipStorageDiv.appendChild(readyBtn);
-
-    const resetBtn = document.createElement('button');
-    resetBtn.innerHTML = 'Reset';
-    resetBtn.id = 'reset-btn';
-    resetBtn.classList = 'btn btn-block btn-secondary mb-2';
-    resetBtn.style = 'background-color: white; color: #6c757d';
-    resetBtn.addEventListener('click', () => {
-      window.location.reload();
-    });
-    shipStorageDiv.appendChild(resetBtn);
-  };
-
   const renderBoard = (player, cellFunction = false, ai = false) => {
     const currentBoard = ai ? document.getElementById('ai-gameboard') : document.getElementById('player-gameboard');
     currentBoard.innerHTML = '';
     const board = ai ? aiGB : playerGB;
     currentBoard.classList = 'col-5 m-2';
 
-    for (let i = 0; i <= 10; i++) {
+    for (let i = 0; i <= 10; i += 1) {
       const row = document.createElement('div');
       if (i === 0) {
-        for (let k = 0; k <= 10; k++) {
+        for (let k = 0; k <= 10; k += 1) {
           const cell = document.createElement('div');
           if (k !== 0) {
             cell.innerHTML = String.fromCharCode(64 + k);
@@ -130,10 +51,10 @@ const Render = (playerGB, aiGB) => {
       currentBoard.appendChild(row);
 
       if (i !== 0) {
-        for (let j = 0; j <= 10; j++) {
-	        const cell = document.createElement('div');
+        for (let j = 0; j <= 10; j += 1) {
+          const cell = document.createElement('div');
           if (j !== 0) {
-		        cell.setAttribute('data-x', i);
+            cell.setAttribute('data-x', i);
             cell.setAttribute('data-y', j);
 
             if (typeof (board.body[i][j]) === 'object') {
@@ -182,7 +103,11 @@ const Render = (playerGB, aiGB) => {
 
   const placeShipCell = (board, x, y, player, ai = false) => {
     if (!currentShip && !ai) {
-      alert('Select a ship from the left menu before!');
+      customAlert.innerHTML = 'Select a ship from the left menu!';
+      customAlert.style.display = 'block';
+      setTimeout(() => {
+        customAlert.style.display = 'none';
+      }, 3000);
     } else if (board.placeShip(currentShip, x, y)) {
       const shipSize = currentShip.body[1].shipLength;
       const usedShip = document.getElementById(`ship-${shipSize}`);
@@ -190,7 +115,11 @@ const Render = (playerGB, aiGB) => {
       currentShip = false;
       renderBoard(player, placeShipCell);
     } else {
-      alert('This is an invalid position.');
+      customAlert.innerHTML = 'This is an invalid position!';
+      customAlert.style.display = 'block';
+      setTimeout(() => {
+        customAlert.style.display = 'none';
+      }, 3000);
     }
   };
 
@@ -204,7 +133,7 @@ const Render = (playerGB, aiGB) => {
       if (player.attack(x, y, board) === 'miss') {
         let aiHit = 'hit';
         while (aiHit === 'hit') {
-          setTimeout(() => {}, 2000);
+          setTimeout(() => {}, 3000);
           aiHit = aiUser.attack(playerGB);
 
           if (playerGB.isAllSunk()) {
@@ -227,10 +156,93 @@ const Render = (playerGB, aiGB) => {
     }
   };
 
+  const renderShipStorage = (player) => {
+    const directionImg = document.createElement('img');
+    let direction = 'horizontal';
+    directionImg.id = 'direction-img';
+    directionImg.src = './icons/arrows-alt-h-solid.svg';
+    directionImg.classList = 'float-right mt-3 mr-1';
+    shipStorageDiv.appendChild(directionImg);
+    const storageContainer = document.createElement('div');
+    shipStorageDiv.appendChild(storageContainer);
+
+    for (let i = 1; i <= 5; i += 1) {
+      const shipContainer = document.createElement('div');
+      shipContainer.id = `ship-${i}`;
+      shipContainer.classList = 'ship m-3';
+      storageContainer.appendChild(shipContainer);
+
+      shipContainer.addEventListener('click', () => { // eslint-disable-line no-loop-func
+        currentShip = playerGB.shipStorage[i];
+        currentShip.setDirection(direction);
+      });
+    }
+
+    directionImg.addEventListener('click', () => {
+      if (direction === 'horizontal') {
+        if (currentShip) {
+          currentShip.setDirection('vertical');
+        }
+        directionImg.src = './icons/arrows-alt-v-solid.svg';
+        direction = 'vertical';
+      } else if (direction === 'vertical') {
+        if (currentShip) {
+          currentShip.setDirection('horizontal');
+        }
+        directionImg.src = './icons/arrows-alt-h-solid.svg';
+        direction = 'horizontal';
+      }
+    });
+
+    const randomBtn = document.createElement('button');
+    randomBtn.innerHTML = 'Random';
+    randomBtn.id = 'random-btn';
+    randomBtn.classList = 'btn btn-block btn-warning mb-2';
+    randomBtn.style = 'background-color: white; color: black;';
+    randomBtn.addEventListener('click', () => {
+      storageContainer.style.visibility = 'hidden';
+      playerGB = gameBoardFactory();
+      playerGB.randomPlacement();
+      renderBoard();
+    });
+    shipStorageDiv.appendChild(randomBtn);
+
+    const readyBtn = document.createElement('button');
+    readyBtn.innerHTML = 'Ready';
+    readyBtn.id = 'ready-btn';
+    readyBtn.classList = 'btn btn-block btn-success mb-2';
+    readyBtn.style = 'background-color: white; color: #28a745;';
+    readyBtn.addEventListener('click', () => {
+      if (playerGB.areShipsPlaced()) {
+        shipStorageDiv.style.display = 'none';
+        renderBoard(player);
+        renderBoard(player, attackShipCell, true);
+        const instructions = document.getElementById('instructions');
+        instructions.innerHTML = 'Click on any given cell on the right board to attack.';
+      } else {
+        customAlert.innerHTML = 'Place all your ships before starting the game!';
+        customAlert.style.display = 'block';
+        setTimeout(() => {
+          customAlert.style.display = 'none';
+        }, 3000);
+      }
+    });
+    shipStorageDiv.appendChild(readyBtn);
+
+    const resetBtn = document.createElement('button');
+    resetBtn.innerHTML = 'Reset';
+    resetBtn.id = 'reset-btn';
+    resetBtn.classList = 'btn btn-block btn-secondary mb-2';
+    resetBtn.style = 'background-color: white; color: #6c757d';
+    resetBtn.addEventListener('click', () => {
+      window.location.reload();
+    });
+    shipStorageDiv.appendChild(resetBtn);
+  };
 
   return {
     renderShipStorage, get currentShip() { return currentShip; }, renderBoard, renderNav, attackShipCell, placeShipCell,
   };
 };
 
-export { Render };
+export { Render as default };

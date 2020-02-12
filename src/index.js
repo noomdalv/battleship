@@ -1,6 +1,6 @@
-import { Render } from './render';
+import Render from './render';
 import { playerFactory } from './player';
-import { gameBoardFactory } from './gameboard';
+import gameBoardFactory from './gameboard';
 
 // randomly place ships on aiGB
 

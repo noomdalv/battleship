@@ -1,13 +1,13 @@
-import { shipFactory } from './ship';
+import shipFactory from './ship';
 
 
 const gameBoardFactory = () => {
   // board creation
   const body = {};
 
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 10; i += 1) {
     body[i] = {};
-    for (let j = 1; j <= 10; j++) {
+    for (let j = 1; j <= 10; j += 1) {
       body[i][j] = 'empty';
     }
   }
@@ -41,7 +41,7 @@ const gameBoardFactory = () => {
     }
 
     if (typeof (checkPosition(x, y)) === 'string' && ship.direction === 'horizontal') {
-      for (let i = y - 1; i <= (y + shipSize); i++) {
+      for (let i = y - 1; i <= (y + shipSize); i += 1) {
         if (typeof (checkPosition(x, i)) !== 'string' && checkPosition(x, i) !== undefined) {
           return false;
         }
@@ -52,8 +52,9 @@ const gameBoardFactory = () => {
         }
       }
       return true;
-    } if (typeof (checkPosition(x, y)) === 'string' && ship.direction === 'vertical') {
-      for (let i = x - 1; i <= (x + shipSize); i++) {
+    }
+    if (typeof (checkPosition(x, y)) === 'string' && ship.direction === 'vertical') {
+      for (let i = x - 1; i <= (x + shipSize); i += 1) {
         if (typeof (checkPosition(i, y)) !== 'string' && checkPosition(i, y) !== undefined) {
           return false;
         }
@@ -65,6 +66,7 @@ const gameBoardFactory = () => {
       }
       return true;
     }
+    return false;
   };
 
 
@@ -83,11 +85,11 @@ const gameBoardFactory = () => {
         if (checkPosition(x - 1, y + shipSize) !== undefined) { body[x - 1][y + shipSize] = 'filled'; }
 
 
-        for (let i = y; i < (y + shipSize); i++) {
+        for (let i = y; i < (y + shipSize); i += 1) {
           body[x][i] = ship.body[bodyCounter];
           if (checkPosition(x - 1, i) !== undefined) { body[x - 1][i] = 'filled'; }
-          			if (checkPosition(x + 1, i) !== undefined) { body[x + 1][i] = 'filled'; }
-          bodyCounter++;
+          if (checkPosition(x + 1, i) !== undefined) { body[x + 1][i] = 'filled'; }
+          bodyCounter += 1;
         }
       } else {
         if (checkPosition(x - 1, y) !== undefined) { body[x - 1][y] = 'filled'; }
@@ -97,20 +99,20 @@ const gameBoardFactory = () => {
         if (checkPosition(x + shipSize, y + 1) !== undefined) { body[x + shipSize][y + 1] = 'filled'; }
         if (checkPosition(x + shipSize, y - 1) !== undefined) { body[x + shipSize][y - 1] = 'filled'; }
 
-        for (let i = x; i < (x + shipSize); i++) {
+        for (let i = x; i < (x + shipSize); i += 1) {
           body[i][y] = ship.body[bodyCounter];
           if (checkPosition(i, y + 1) !== undefined) { body[i][y + 1] = 'filled'; }
-          			if (checkPosition(i, y - 1) !== undefined) { body[i][y - 1] = 'filled'; }
-          bodyCounter++;
+          if (checkPosition(i, y - 1) !== undefined) { body[i][y - 1] = 'filled'; }
+          bodyCounter += 1;
         }
-	  		}
-	  		return true;
+      }
+      return true;
     }
     return false;
   };
 
   const randomPlacement = () => {
-    for (let i = 5; i >= 1; i--) {
+    for (let i = 5; i >= 1; i -= 1) {
       let placed = false;
       if (Math.floor(Math.random() * Math.floor(2)) === 0) {
         shipStorage[i].setDirection('vertical');
@@ -126,7 +128,7 @@ const gameBoardFactory = () => {
   };
 
   const receiveAttack = (x, y) => {
-    if (body[x][y] === 'empty' || body[x][y] === 'filled' || typeof (body[x][y]) === 'object' && body[x][y].status === true) {
+    if (typeof (body[x][y]) === 'string' || (typeof (body[x][y]) === 'object' && body[x][y].status === true)) {
       // change value to false if there's a ship
 
       if (typeof (body[x][y]) === 'string') {
@@ -135,7 +137,7 @@ const gameBoardFactory = () => {
       }
       body[x][y].status = false;
       shipStorage[body[x][y].shipLength].hit(body[x][y].bodyIndex);
-      attacksCounter++;
+      attacksCounter += 1;
       return 'hit';
     }
     // alert('You can\'t hit this spot again.');
@@ -151,10 +153,10 @@ const gameBoardFactory = () => {
 
   const areShipsPlaced = () => {
     let shipBodyCounter = 0;
-    for (let i = 1; i <= 10; i++) {
-      for (let j = 1; j <= 10; j++) {
+    for (let i = 1; i <= 10; i += 1) {
+      for (let j = 1; j <= 10; j += 1) {
         if (typeof (body[i][j]) === 'object' && body[i][j].status) {
-          shipBodyCounter++;
+          shipBodyCounter += 1;
         }
       }
     }
@@ -168,11 +170,11 @@ const gameBoardFactory = () => {
     body,
     placeShip,
     receiveAttack,
-			 randomPlacement,
+    randomPlacement,
     isAllSunk,
     areShipsPlaced,
     get shipStorage() { return shipStorage; },
   };
 };
 
-export { gameBoardFactory };
+export { gameBoardFactory as default };

@@ -1,4 +1,4 @@
-import { shipFactory } from '../src/ship';
+import shipFactory from '../src/ship';
 
 const mockShip = shipFactory(4);
 

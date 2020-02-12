@@ -2,7 +2,7 @@ const shipFactory = (length) => {
   const body = {};
   let direction = 'horizontal';
 
-  for (let i = 1; i <= length; i++) {
+  for (let i = 1; i <= length; i += 1) {
     body[i] = { status: true, bodyIndex: i, shipLength: length };
   }
 
@@ -11,7 +11,7 @@ const shipFactory = (length) => {
   };
 
   const isSunk = () => {
-    for (let i = 1; i <= length; i++) {
+    for (let i = 1; i <= length; i += 1) {
       if (body[i].status) {
         return false;
       }
@@ -33,4 +33,4 @@ const shipFactory = (length) => {
   };
 };
 
-export { shipFactory };
+export { shipFactory as default };
