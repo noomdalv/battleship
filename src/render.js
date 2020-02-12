@@ -171,11 +171,15 @@ const Render = (playerGB,aiGB) => {
     }
 
 		currentBoard.addEventListener("mouseover", () => {
-			if (ai || currentShip) {				
+			if (ai || currentShip) {
 				currentBoard.style.cursor = "crosshair";
 			} else {
 				currentBoard.style.cursor = "auto";
 			}
+		})
+
+		document.getElementById('play-again-btn').addEventListener('click', () => {
+			window.location.reload();
 		})
   }
 
@@ -200,41 +204,41 @@ const Render = (playerGB,aiGB) => {
       playerBoard.innerHTML = "";
       let aiBoard = document.getElementById('ai-gameboard');
       aiBoard.innerHTML = "";
+
       if (player && ai) {
         if (player.attack(x,y, board) === 'miss') {
           let aiHit = 'hit'
           while (aiHit === 'hit') {
-            
+						setTimeout(function() {}, 2000);
             aiHit = aiUser.attack(playerGB);
 
-            if (playerGB.isAllSunk()) {
-              renderBoard(player);
-              renderBoard(player, attackShipCell, true);
-              setTimeout(displayResult('ai'),2000);
-              
-            };
+						if (playerGB.isAllSunk()) {
+							renderBoard(player);
+							renderBoard(player, false, true);
+							instructions.innerHTML = "AI WINS"
+							document.getElementById('play-again-btn').classList = "btn btn-success mt-5 mr-5";
+						}
           }
         };
-
-        if (aiGB.isAllSunk()) {
-          renderBoard(player);
-          renderBoard(player, attackShipCell, true);
-          displayResult('player');
-        }
-
-        renderBoard(player);
-        renderBoard(player, attackShipCell, true);
       }
+			if (aiGB.isAllSunk()) {
+				renderBoard(player);
+				renderBoard(player, false, true);
+				instructions.innerHTML = "YOU WIN";
+				document.getElementById('play-again-btn').classList = "btn btn-success mt-5 mr-5";
+			} else {
+				renderBoard(player);
+				renderBoard(player, attackShipCell, true);
+			}
   };
 
   const displayResult = (winner) => {
     if (winner === 'player') {
       alert('You have won!');
-      window.location.reload();
     } else {
       alert('You have lost!');
-      window.location.reload();
     }
+		window.location.reload();
   }
 
 

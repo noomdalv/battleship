@@ -13,18 +13,23 @@
 		<nav id='nav'>
 
 		</nav>
-		<div class="row board-wrapper">
+		<div class="row board-wrapper d-flex justify-content-center">
 			<aside id="ship-storage-container" class="border border-primary col-3 mt-2 mr-5">
 		  </aside>
 
 		  <div id='boards' class='col row'>
-			<div id="player-gameboard" class="col-5 m-2">
-			</div>
-			<div id="ai-gameboard" class="col-5 m-2 d-none">
-			</div>
+				<div id="player-gameboard" class="col-5 m-2">
+				</div>
+				<div id="ai-gameboard" class="col-5 m-2 d-none">
+				</div>
 
 		  </div>
+
 		</div>
+		<div class="row d-flex justify-content-center">
+			<button id="play-again-btn" class="btn btn-success mt-5 mr-5 d-none">Play Again</button>
+		</div>
+
   </main>
 
 	<script src="./main.js"></script>
