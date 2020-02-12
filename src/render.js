@@ -1,13 +1,12 @@
-import { playerFactory } from "./player";
+import { aiFactory } from "./player";
 import { gameBoardFactory } from './gameboard';
 
 
 
-const Render = () => {
+const Render = (playerGB,aiGB) => {
 
-  let playerGB = gameBoardFactory();
-  let aiGB = gameBoardFactory(true);
-  let player = playerFactory();
+  let aiUser = aiFactory();
+
   aiGB.randomPlacement();
 
   // initialize players and gameboards
@@ -28,7 +27,7 @@ const Render = () => {
     nav.appendChild(instructions);
   };
 
-  const renderShipStorage = () => {
+  const renderShipStorage = (player) => {
 		const directionImg = document.createElement('img');
 		let direction = "horizontal";
 		directionImg.id = "direction-img"
@@ -72,7 +71,6 @@ const Render = () => {
     randomBtn.classList = 'btn btn-block btn-warning mb-2';
     randomBtn.style = 'background-color: white; color: black;'
     randomBtn.addEventListener('click', () => {
-      let ships = document.getElementsByClassName('ship');
       storageContainer.style.visibility = 'hidden';
       playerGB = gameBoardFactory();
       playerGB.randomPlacement();
@@ -88,8 +86,8 @@ const Render = () => {
     readyBtn.addEventListener('click', () => {
       if (playerGB.areShipsPlaced()) {
         shipStorageDiv.style.display = 'none';
-        renderBoard();
-        renderBoard(attackShipCell, true);
+        renderBoard(player);
+        renderBoard(player, attackShipCell, true);
         let instructions = document.getElementById('instructions');
         instructions.innerHTML = 'Click on any given cell on the right board to attack.';
       } else {
@@ -110,7 +108,7 @@ const Render = () => {
     shipStorageDiv.appendChild(resetBtn);
   }
 
-  const renderBoard = (cellFunction = false, ai = false) => {
+  const renderBoard = (player, cellFunction = false, ai = false,) => {
     const currentBoard = ai ? document.getElementById('ai-gameboard') : document.getElementById('player-gameboard');
     currentBoard.innerHTML = '';
     const board = ai ? aiGB : playerGB;
@@ -165,7 +163,7 @@ const Render = () => {
           let y = parseInt(cell.getAttribute('data-y'))
           if (cellFunction !== false) {
             cell.addEventListener('click', () => {
-              cellFunction(board, x, y)
+              cellFunction(board, x, y, player, ai)
             });
           };
 				}
@@ -181,8 +179,8 @@ const Render = () => {
 		})
   }
 
-  const placeShipCell = (board, x,y) => {
-    if (!currentShip) {
+  const placeShipCell = (board, x,y, player, ai = false) => {
+    if (!currentShip && !ai) {
       alert('Select a ship from the left menu before!');
     } else {
       if(board.placeShip(currentShip, x, y)) {
@@ -190,31 +188,57 @@ const Render = () => {
         let usedShip = document.getElementById(`ship-${shipSize}`);
         usedShip.style.visibility = 'hidden';
 				currentShip = false;
-        renderBoard(placeShipCell);
+        renderBoard(player, placeShipCell);
       } else {
         alert("This is an invalid position.");
       }
     }
   }
 
-  const attackShipCell = (board, x,y) => {
-      player.attack(x,y, board);
-      let aiBoard = document.getElementById('ai-gameboard')
-			aiBoard.innerHTML = "";
-      renderBoard(attackShipCell, true);
+  const attackShipCell = (board, x,y, player, ai = false) => {
+      let playerBoard = document.getElementById('player-gameboard');
+      playerBoard.innerHTML = "";
+      let aiBoard = document.getElementById('ai-gameboard');
+      aiBoard.innerHTML = "";
+      if (player && ai) {
+        if (player.attack(x,y, board) === 'miss') {
+          let aiHit = 'hit'
+          while (aiHit === 'hit') {
+            
+            aiHit = aiUser.attack(playerGB);
+
+            if (playerGB.isAllSunk()) {
+              renderBoard(player);
+              renderBoard(player, attackShipCell, true);
+              setTimeout(displayResult('ai'),2000);
+              
+            };
+          }
+        };
+
+        if (aiGB.isAllSunk()) {
+          renderBoard(player);
+          renderBoard(player, attackShipCell, true);
+          displayResult('player');
+        }
+
+        renderBoard(player);
+        renderBoard(player, attackShipCell, true);
+      }
   };
+
+  const displayResult = (winner) => {
+    if (winner === 'player') {
+      alert('You have won!');
+      window.location.reload();
+    } else {
+      alert('You have lost!');
+      window.location.reload();
+    }
+  }
 
 
   return { renderShipStorage, get currentShip() { return currentShip }, renderBoard, renderNav, attackShipCell, placeShipCell };
-
-  // const ready = () => {
-
-  //   if (!playerGB.areShipsPlaced()) {
-  //     alert('You need to place all of your ships!');
-  //   } else {
-  //     start();
-  //   };
-  // };
 
   // const isOver = () => {
   //   if (playerGB.attacksCounter === 15) {

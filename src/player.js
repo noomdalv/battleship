@@ -1,10 +1,9 @@
 const playerFactory = () => {
     const attack = (x, y, aiGB) => {
-        aiGB.receiveAttack(x,y);
+        return aiGB.receiveAttack(x,y);
     }
 
     return { attack };
-
 }
 
 const aiFactory = () => {

@@ -150,13 +150,12 @@ const gameBoardFactory = (ai = false) => {
 		}
 	};
 
-	const isSunkAll = () => {
-		for (let i = 1; i <= 5; i++) {
-			if (!shipStorage[i].isSunk()) {
-				return false
-			}
-		}
-		return true
+	const isAllSunk = () => {
+		if (attacksCounter === 15) {
+			return true;
+		} else {
+			return false;
+		};
 	}
 
 	const areShipsPlaced = () => {
@@ -176,8 +175,8 @@ const gameBoardFactory = (ai = false) => {
 	}
 
 	return { body, placeShip, receiveAttack,
-			 randomPlacement, isSunkAll, areShipsPlaced,
-			 get attacksCounter() {return attacksCounter}, get shipStorage() {return shipStorage} }
+			 randomPlacement, isAllSunk, areShipsPlaced,
+			get shipStorage() {return shipStorage} }
 }
 
 export { gameBoardFactory };
