@@ -18,6 +18,10 @@
     "no-plusplus": "off",
     "no-tabs": "off",
     "no-mixed-spaces-and-tabs": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "consistent-return": "off",
+    "no-mixed-operators": "off",
+    "import/prefer-default-export": "off",
+    "no-loop-func": "off"
   }
 }

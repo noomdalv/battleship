@@ -1,7 +1,7 @@
 import { shipFactory } from './ship';
 
 
-const gameBoardFactory = (ai = false) => {
+const gameBoardFactory = () => {
   // board creation
   const body = {};
 

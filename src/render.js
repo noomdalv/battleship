@@ -15,12 +15,13 @@ const Render = (playerGB, aiGB) => {
 
   const nav = document.getElementById('nav');
 
+  const instructions = document.createElement('div');
+
   const renderNav = () => {
-    const instructions = document.createElement('div');
     instructions.id = 'instructions';
     instructions.innerHTML = `Place your ships clicking on any given ship in the left box and then clicking in any given cell on the board.<br>
-                              Your ship\'s \'head\' will always be positioned on the cell you clicked. To switch the direction of the ship, click<br>
-                              the button at the top right corner of the left menu. When you\'re done placing all of your ships, press ready!`;
+                              Your ship's 'head' will always be positioned on the cell you clicked. To switch the direction of the ship, click<br>
+                              the button at the top right corner of the left menu. When you're done placing all of your ships, press ready!`;
     instructions.classList = 'text-center mt-5 border border-info bg-light';
     nav.appendChild(instructions);
   };
@@ -155,8 +156,8 @@ const Render = (playerGB, aiGB) => {
           }
 
           row.appendChild(cell);
-          const x = parseInt(cell.getAttribute('data-x'));
-          const y = parseInt(cell.getAttribute('data-y'));
+          const x = parseInt(cell.getAttribute('data-x'), 10);
+          const y = parseInt(cell.getAttribute('data-y'), 10);
           if (cellFunction !== false) {
             cell.addEventListener('click', () => {
               cellFunction(board, x, y, player, ai);
@@ -226,27 +227,10 @@ const Render = (playerGB, aiGB) => {
     }
   };
 
-  const displayResult = (winner) => {
-    if (winner === 'player') {
-      alert('You have won!');
-    } else {
-      alert('You have lost!');
-    }
-    window.location.reload();
-  };
-
 
   return {
     renderShipStorage, get currentShip() { return currentShip; }, renderBoard, renderNav, attackShipCell, placeShipCell,
   };
-
-  // const isOver = () => {
-  //   if (playerGB.attacksCounter === 15) {
-  //     // render results 'you lost'
-  //   } else if (aiGB.attacksCounter === 15) {
-  //     // render results 'you won!'
-  //   }
-  // }
 };
 
 export { Render };
