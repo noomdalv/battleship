@@ -20,18 +20,14 @@ const shipFactory = (length) => {
     return true;
   };
 
-  const switchDirection = () => {
-    if (direction === 'horizontal') {
-      direction = 'vertical';
-    } else {
-      direction = 'horizontal';
-    }
+  const setDirection = (newDirection) => {
+    direction = newDirection;
   };
 
 
 
   return { body, hit, isSunk, get direction() { return direction},
-           switchDirection };
+           setDirection };
 }
 
 export { shipFactory };

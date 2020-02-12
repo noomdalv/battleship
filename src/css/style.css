@@ -10,20 +10,18 @@ main {
 	margin-top: 80px;
 }
 
-#ship-storage-container {
-	height: max-content;
+#ship-storage-container {	
 	border: solid black 1px;
 }
 
-.direction-btn {
-	background-color: white;
-	color: #007bff;
-	border: solid #007bff 2px;
-	font-weight: bold;
-	font-size: 15px;
+#direction-img {
+	width: 35px;
+	height: 35px;
+	padding: 5px;
+	border: solid black 1px;
 }
 
-.direction-btn:hover {
+#direction-img:hover {
 	background-color: #daedf0;
 	color: #007bff;
 }
@@ -57,6 +55,7 @@ main {
 #player-gameboard, #ai-gameboard {
 	display: grid;
 	justify-content: center;
+	text-align: center;
 	grid-template-rows: repeat(11, 30px);
 }
 
@@ -80,15 +79,27 @@ main {
 	border: 2px solid #28a745;
 }
 
+#random-btn:hover {
+	font-weight: bold;
+	border: 2px solid #ffc107;
+}
+
+#reset-btn:hover {
+	font-weight: bold;
+	border: 2px solid #6c757d;
+}
+
 .ship-display {
-	border: solid white 2px;
+	border: solid white 1px;
 	background-color: #007bff;
 }
 
 .attack-display {
 	background-color: red;
+	border: solid black 1px;
 }
 
 .miss-display {
-	background-color: gray;
+	background-color: #aaaaaa;
+	border: solid black 1px;
 }

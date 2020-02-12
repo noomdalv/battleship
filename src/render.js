@@ -29,10 +29,12 @@ const Render = () => {
   };
 
   const renderShipStorage = () => {
-    const switchDirectionBtn = document.createElement('button');
-    switchDirectionBtn.innerHTML = "V";
-    switchDirectionBtn.classList = "btn direction-btn float-right mt-3 mr-2"
-    shipStorageDiv.appendChild(switchDirectionBtn)
+		const directionImg = document.createElement('img');
+		let direction = "horizontal";
+		directionImg.id = "direction-img"
+		directionImg.src = '../src/icons/arrows-alt-h-solid.svg'
+    directionImg.classList = "float-right mt-3 mr-1"
+    shipStorageDiv.appendChild(directionImg)
     let storageContainer = document.createElement('div');
     shipStorageDiv.appendChild(storageContainer)
 
@@ -44,33 +46,31 @@ const Render = () => {
 
       shipContainer.addEventListener("click", () => {
         currentShip = playerGB.shipStorage[i];
-        switchDirectionBtn.innerHTML = currentShip.direction === 'horizontal' ? 'V': 'H';
+				currentShip.setDirection(direction);
       })
-
     }
 
-
-    switchDirectionBtn.addEventListener("click", () => {
-      if (currentShip) {
-        if (currentShip.direction === "horizontal") {
-          switchDirectionBtn.innerHTML = "H";
-          currentShip.switchDirection();
-        } else if (currentShip.direction === "vertical"){
-          switchDirectionBtn.innerHTML = "V";
-          currentShip.switchDirection();
-        }
-      } else {
-        alert("You need to select a ship first");
-      }
-
-
+    directionImg.addEventListener("click", () => {
+			if (direction === "horizontal") {
+				if (currentShip) {
+					currentShip.setDirection("vertical");
+				}
+				directionImg.src = '../src/icons/arrows-alt-v-solid.svg';
+				direction = "vertical";
+	    } else if (direction === "vertical") {
+				if (currentShip) {
+					currentShip.setDirection("horizontal");
+				}
+				directionImg.src = '../src/icons/arrows-alt-h-solid.svg'
+				direction = "horizontal";
+	    }
     })
 
     const randomBtn = document.createElement('button');
     randomBtn.innerHTML = 'Random';
     randomBtn.id = 'random-btn'
     randomBtn.classList = 'btn btn-block btn-warning mb-2';
-    randomBtn.style = 'background-color: white; color: #6c757d'
+    randomBtn.style = 'background-color: white; color: black;'
     randomBtn.addEventListener('click', () => {
       let ships = document.getElementsByClassName('ship');
       storageContainer.style.visibility = 'hidden';
@@ -99,14 +99,14 @@ const Render = () => {
     })
     shipStorageDiv.appendChild(readyBtn);
 
-    const resetBtn = document.createElement('button');
-    resetBtn.innerHTML = 'Reset Gameboard';
-    resetBtn.id = 'reset-btn'
-    resetBtn.classList = 'btn btn-block btn-secondary mb-2';
-    resetBtn.style = 'background-color: white; color: #6c757d'
-    resetBtn.addEventListener('click', () => {
-      window.location.reload();
-    })
+		const resetBtn = document.createElement('button');
+		resetBtn.innerHTML = 'Reset';
+		resetBtn.id = 'reset-btn'
+		resetBtn.classList = 'btn btn-block btn-secondary mb-2';
+		resetBtn.style = 'background-color: white; color: #6c757d'
+		resetBtn.addEventListener('click', () => {
+			window.location.reload();
+		})
     shipStorageDiv.appendChild(resetBtn);
   }
 
@@ -145,11 +145,13 @@ const Render = () => {
                 cell.classList = 'ship-display'
               } else if (!board.body[i][j].status) {
                 cell.classList = 'attack-display';
+								cell.innerHTML = "X";
               } else if (ai && board.body[i][j].status) {
 								cell.classList = 'cellcol'
 							}
             } else if (board.body[i][j] === 'miss') {
               cell.classList = 'miss-display';
+							cell.innerHTML = "M";
             } else {
 							cell.classList = 'cellcol';
 						}
@@ -169,6 +171,14 @@ const Render = () => {
 				}
       }
     }
+
+		currentBoard.addEventListener("mouseover", () => {
+			if (!ai && currentShip) {
+				currentBoard.style.cursor = "crosshair";
+			} else if (!ai) {
+				currentBoard.style.cursor = "auto";
+			}
+		})
   }
 
   const placeShipCell = (domBoard, board, x,y) => {
@@ -179,6 +189,7 @@ const Render = () => {
         let shipSize = currentShip.body[1].shipLength;
         let usedShip = document.getElementById(`ship-${shipSize}`);
         usedShip.style.visibility = 'hidden';
+				currentShip = false;
         renderBoard(placeShipCell);
       } else {
         alert("This is an invalid position.");
@@ -190,7 +201,7 @@ const Render = () => {
       player.attack(x,y, aiGB);
 			console.log(aiGB.body);
 			domBoard.innerHTML = "";
-      renderBoard(Render.attackShipCell, true);
+      renderBoard(attackShipCell, true);
   };
 
 

@@ -118,7 +118,7 @@ const gameBoardFactory = (ai = false) => {
 		for (let i = 5; i >= 1; i--) {
 			let placed = false
 			if (Math.floor(Math.random() * Math.floor(2)) === 0) {
-				shipStorage[i].switchDirection()
+				shipStorage[i].setDirection("vertical");
 			}
 
 			while (!placed) {
@@ -143,7 +143,7 @@ const gameBoardFactory = (ai = false) => {
 				shipStorage[body[x][y].shipLength].hit(body[x][y].bodyIndex);
 				attacksCounter++;
 				return 'hit';
-			};			
+			};
 		} else {
 			// alert('You can\'t hit this spot again.');
 			return false;
