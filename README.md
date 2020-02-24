@@ -1,6 +1,9 @@
 # Battleship Project - [Microverse - JavaScript Course]
 
-> ​ The Battleship project is aimed at applying the knowledge of javascript , webpack, and basic HTML/CSS to create a copy of the battleship game. ​
+>  The Battleship project is aimed at applying the knowledge of javascript , webpack, and basic HTML/CSS to create a copy of the battleship game. 
+
+![Battelship game home page](/../screenshot/home-page.png?raw=true "Battleship game home page")
+![Battelship game page](/../screenshot/game-page.png?raw=true "Battleship game page")
 
 
 ## Built With
@@ -32,7 +35,7 @@ git clone https://github.com/marcos-medeiros/battleship.git
 👤 **Marcos Medeiros**
 
 - Github: [@marcos-medeiros](https://github.com/marcos-medeiros)
-- [Linkedin](https://www.linkedin.com/in/marcos-medeiros-6a079a18a/)
+- [Linkedin](https://www.linkedin.com/in/marcosmedeiros-dev/)
 
 👤 **Vladimir Luna**
 
