@@ -1,0 +1,111 @@
+main {
+	height: 800px;
+	margin: auto;
+	border: solid black 1px;
+}
+
+.alert {
+	position: absolute;
+	top: 20%;
+	left: 40%;
+	z-index: 2;
+}
+.board-wrapper {
+	width: 80%;
+	margin: auto;
+	margin-top: 80px;
+}
+
+#ship-storage-container {
+	border: solid black 1px;
+}
+
+#direction-img {
+	width: 35px;
+	height: 35px;
+	padding: 5px;
+	border: solid black 1px;
+}
+
+#direction-img:hover {
+	background-color: #daedf0;
+	color: #007bff;
+}
+
+.ship {
+	height: 30px;
+	border: solid #007bff 2px;
+	background-color: #daedf0;
+}
+
+#ship-1 {
+	width: 30px;
+}
+
+#ship-2 {
+	width: 60px;
+}
+
+#ship-3 {
+	width: 90px;
+}
+
+#ship-4 {
+	width: 120px;
+}
+
+#ship-5 {
+	width: 150px;
+}
+
+#player-gameboard, #ai-gameboard {
+	display: grid;
+	justify-content: center;
+	text-align: center;
+	grid-template-rows: repeat(11, 30px);
+}
+
+.cellrow {
+	display: grid;
+	grid-template-columns: repeat(11, 30px);
+}
+
+.cellcol {
+	border: solid black 1px;
+}
+
+.letter-row {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+#ready-btn:hover {
+	font-weight: bold;
+	border: 2px solid #28a745;
+}
+
+#random-btn:hover {
+	font-weight: bold;
+	border: 2px solid #ffc107;
+}
+
+#reset-btn:hover {
+	font-weight: bold;
+	border: 2px solid #6c757d;
+}
+
+.ship-display {
+	border: solid white 1px;
+	background-color: #007bff;
+}
+
+.attack-display {
+	background-color: red;
+	border: solid black 1px;
+}
+
+.miss-display {
+	background-color: #aaaaaa;
+	border: solid black 1px;
+}
