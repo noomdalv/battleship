@@ -19,8 +19,8 @@
 
 ## Future Features
 
-- AI optimization
-- Dark theme
+AI optimization<br />
+Dark theme
 
 ## Getting Started
 
