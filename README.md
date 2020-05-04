@@ -17,6 +17,10 @@
 
 [Live Demo Link](https://raw.githack.com/marcos-medeiros/battleship/game-setup/dist/index.html)
 
+## Future Features
+
+- AI optimization
+- Dark theme
 
 ## Getting Started
 
@@ -24,10 +28,24 @@ To get a local copy up and running follow these simple example steps.
 
 ### Setup
 
-Open your git bash and cd to the location you'd like to put your files the run the command below.
+Open your git bash and cd to the location you'd like to put your files the run the commands below:
 
 ```console
 git clone https://github.com/marcos-medeiros/battleship.git
+```
+
+```console
+npm install
+```
+
+```console
+npm start
+```
+
+## Run Tests
+
+```console
+npm test
 ```
 
 ## Authors
